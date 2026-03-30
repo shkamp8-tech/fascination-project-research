@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Fascination Project Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-title">
+      <h1>Fascination Project Research</h1>
+    </div>
+    <nav class="controls">
+      <button id="zoom-in" title="Zoom in" aria-label="Zoom in">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+      <button id="zoom-out" title="Zoom out" aria-label="Zoom out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+      <button id="fit-view" title="Fit to screen" aria-label="Fit to screen">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+        </svg>
+      </button>
+      <button id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main id="viewport">
+    <div id="canvas">
+      <svg id="connections-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrowhead" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0 0, 10 3.5, 0 7" class="arrow-marker"/>
+          </marker>
+          <marker id="arrowhead-hover" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0 0, 10 3.5, 0 7" class="arrow-marker-hover"/>
+          </marker>
+        </defs>
+      </svg>
+
+      <!-- Boundary box -->
+      <div class="boundary-box"></div>
+
+      <!-- ══════ CONCEPT CARDS ══════ -->
+
+      <div class="node concept" id="n-experience" data-id="experience">
+        <h3>Experience</h3>
+        <p>The personal, direct perception of something: trying, feeling the tension, and the learning that arises from acting.</p>
+      </div>
+
+      <div class="node concept" id="n-serendipity" data-id="serendipity">
+        <h3>Serendipity</h3>
+        <p>The unexpected discovery of luck, valuable things, or new ideas while you are simply being or doing something completely different.</p>
+      </div>
+
+      <div class="node concept" id="n-surrealism" data-id="surrealism">
+        <h3>Surrealism</h3>
+        <p>A conscious bringing together of dream-like (absurd) and unexpected elements to force new meanings and disrupt the everyday.</p>
+      </div>
+
+      <div class="node concept" id="n-proactive" data-id="proactive">
+        <h3>Proactive / Reactive</h3>
+        <p>As a designer/individual/group/society/institution/community/organization, give or receive input to respond to something in order to start/adapt/adjust behavior.</p>
+      </div>
+
+      <div class="node concept" id="n-paradigm" data-id="paradigm">
+        <h3>Paradigm</h3>
+        <p>The way of thinking that is seen as normal in a certain environment.</p>
+      </div>
+
+      <div class="node concept" id="n-background" data-id="background">
+        <h3>Background Relations</h3>
+        <p>The invisible conditions and infrastructures (light, material, routines, technology, social expectations) that shape how people perceive and use something.</p>
+      </div>
+
+      <div class="node concept" id="n-metaphorical" data-id="metaphorical">
+        <h3>Metaphorical</h3>
+        <p>To not say something literally, but to express a similar meaning/feeling in a hidden or subtle way.</p>
+      </div>
+
+      <div class="node concept" id="n-modularity" data-id="modularity">
+        <h3>Modularity</h3>
+        <p>Different/repeating modules that can function independently but together can form complex systems and adapt/change according to the environment's needs.</p>
+      </div>
+
+      <div class="node concept" id="n-patterns" data-id="patterns">
+        <h3>Patterns</h3>
+        <p>Repeated structures/forms literal or figurative as in assumptions/rules/examples/beliefs/conditions.</p>
+      </div>
+
+      <div class="node concept" id="n-anemoia" data-id="anemoia">
+        <h3>Anemoia</h3>
+        <p>A feeling of longing for a time/place you have never personally experienced.</p>
+      </div>
+
+      <div class="node concept" id="n-supply" data-id="supply">
+        <h3>Supply and demand</h3>
+        <p>A system that self-corrects to become as efficient as possible without our direct intervention.</p>
+      </div>
+
+      <div class="node concept" id="n-systems" data-id="systems">
+        <h3>Systems</h3>
+        <p>A collection of components and the connections between them that together produce a function or behavior through inputs, outputs, and feedback, and are thereby self-correcting and adaptive.</p>
+      </div>
+
+      <div class="node concept" id="n-liminality" data-id="liminality">
+        <h3>Liminality</h3>
+        <p>A transitional experience of moving from one environment to a new environment.</p>
+      </div>
+
+      <div class="node concept" id="n-threshold" data-id="threshold">
+        <h3>Threshold</h3>
+        <p>A tipping point or trigger that changes a state into a new state.</p>
+      </div>
+
+      <div class="node concept" id="n-error" data-id="error">
+        <h3>Error</h3>
+        <p>A permanent error that occurs within a system and must be resolved by something or someone outside that system.</p>
+      </div>
+
+      <div class="node concept" id="n-glitch" data-id="glitch">
+        <h3>Glitch</h3>
+        <p>A brief, unexpected deviation that is temporary and disappears on its own.</p>
+      </div>
+
+      <div class="node concept" id="n-statusquo" data-id="statusquo">
+        <h3>Status quo</h3>
+        <p>The visible rules/routines/facilities/laws/infrastructures/service and everyday practices that are seen as normal in a certain environment.</p>
+      </div>
+
+      <div class="node concept" id="n-intersubjectivity" data-id="intersubjectivity">
+        <h3>Intersubjectivity</h3>
+        <p>Shared perspectives between individuals/groups/communities/organizations/society/etc that create a new reality, subjectivity that is collective so it becomes objective.</p>
+      </div>
+
+      <div class="node concept" id="n-entropy" data-id="entropy">
+        <h3>Entropy</h3>
+        <p>The spread of energy within a system, reducing usable energy, until it evens out.</p>
+      </div>
+
+      <div class="node concept" id="n-decay" data-id="decay">
+        <h3>Decay</h3>
+        <p>A process of breaking down in which materials/structures/systems lose their value over time.</p>
+      </div>
+
+      <div class="node concept" id="n-cause" data-id="cause">
+        <h3>Cause and effect</h3>
+        <p>An event or factor that directly or indirectly changes something.</p>
+      </div>
+
+      <!-- ══════ TAGS ══════ -->
+
+      <div class="node tag" id="n-exploration" data-id="exploration">Exploration</div>
+      <div class="node tag" id="n-adventure" data-id="adventure">Adventure</div>
+      <div class="node tag" id="n-discovery" data-id="discovery">Discovery</div>
+      <div class="node tag" id="n-luck" data-id="luck">Luck</div>
+      <div class="node tag" id="n-knowledge" data-id="knowledge">Knowledge</div>
+      <div class="node tag" id="n-dream" data-id="dream">Dream</div>
+      <div class="node tag" id="n-longmoment" data-id="longmoment">A long moment</div>
+      <div class="node tag" id="n-shortmoment" data-id="shortmoment">A short moment</div>
+
+      <!-- ══════ LABELS ══════ -->
+
+      <div class="node label" id="n-connections" data-id="connections">Connections</div>
+      <div class="node label" id="n-tension" data-id="tension">Tension</div>
+      <div class="node label" id="n-balance" data-id="balance">Balance</div>
+      <div class="node label" id="n-perspectives" data-id="perspectives">Perspectives</div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
