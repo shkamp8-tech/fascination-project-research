@@ -16,7 +16,7 @@
   --accent-glow: rgba(129, 140, 248, 0.12);
   --shine-mid: rgba(129, 140, 248, 0.04);
   --shine-end: rgba(129, 140, 248, 0.10);
-  --arrow-color: rgba(255, 255, 255, 0.15);
+  --arrow-color: rgba(255, 255, 255, 0.3);
   --arrow-hover: rgba(129, 140, 248, 0.7);
   --boundary-border: rgba(255, 255, 255, 0.045);
   --tag-bg: rgba(255, 255, 255, 0.05);
@@ -49,7 +49,7 @@
   --accent-glow: rgba(99, 102, 241, 0.10);
   --shine-mid: rgba(99, 102, 241, 0.05);
   --shine-end: rgba(99, 102, 241, 0.12);
-  --arrow-color: rgba(0, 0, 0, 0.12);
+  --arrow-color: rgba(0, 0, 0, 0.22);
   --arrow-hover: rgba(99, 102, 241, 0.6);
   --boundary-border: rgba(0, 0, 0, 0.05);
   --tag-bg: rgba(0, 0, 0, 0.025);
@@ -236,6 +236,9 @@ header {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   cursor: default;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Purple gradient shine overlay */
@@ -315,15 +318,20 @@ header {
    ═══════════════════════════════════════════ */
 
 .node.label {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   font-style: italic;
   color: var(--label-color);
   white-space: nowrap;
   cursor: default;
-  pointer-events: none;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: 8px;
+  padding: 6px 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* ═══════════════════════════════════════════
@@ -332,7 +340,7 @@ header {
 
 .connection-path {
   stroke: var(--arrow-color);
-  stroke-width: 1;
+  stroke-width: 1.8;
   fill: none;
   transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
 }
@@ -361,7 +369,7 @@ header {
 
 .connection-path.highlighted {
   stroke: var(--arrow-hover);
-  stroke-width: 1.5;
+  stroke-width: 2.5;
 }
 
 .connection-path.dimmed {
