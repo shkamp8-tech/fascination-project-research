@@ -171,8 +171,8 @@ header {
 
 #canvas {
   position: absolute;
-  width: 1580px;
-  height: 880px;
+  width: 1560px;
+  height: 860px;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -203,11 +203,11 @@ header {
 .boundary-box {
   position: absolute;
   left: 5px;
-  top: 12px;
-  width: 1095px;
-  height: 798px;
+  top: 10px;
+  width: 1080px;
+  height: 790px;
   border: 1px solid var(--boundary-border);
-  border-radius: 16px;
+  border-radius: 14px;
   pointer-events: none;
   transition: border-color 0.4s ease;
 }
@@ -331,7 +331,7 @@ header {
 
 .connection-path {
   stroke: var(--arrow-color);
-  stroke-width: 1.5;
+  stroke-width: 1;
   fill: none;
   transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
 }
@@ -360,7 +360,7 @@ header {
 
 .connection-path.highlighted {
   stroke: var(--arrow-hover);
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 
 .connection-path.dimmed {

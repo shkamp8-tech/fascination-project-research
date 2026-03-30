@@ -7,55 +7,55 @@
   'use strict';
 
   // ─── CANVAS SIZE ───
-  const CANVAS_W = 1580;
-  const CANVAS_H = 880;
+  const CANVAS_W = 1560;
+  const CANVAS_H = 860;
 
   // ─── NODE POSITIONS { x, y, w? } ───
   const layout = {
-    // Concepts — Row 1 (top)
-    experience:        { x: 115, y: 145, w: 235 },
-    serendipity:       { x: 618, y: 25, w: 255 },
-    surrealism:        { x: 618, y: 215, w: 255 },
-    proactive:         { x: 1120, y: 25, w: 240 },
-    paradigm:          { x: 1120, y: 175, w: 220 },
+    // Row 1 — top area
+    experience:        { x: 120, y: 130, w: 240 },
+    serendipity:       { x: 610, y: 22, w: 260 },
+    surrealism:        { x: 610, y: 200, w: 260 },
+    proactive:         { x: 1098, y: 22, w: 245 },
+    paradigm:          { x: 1098, y: 160, w: 225 },
 
-    // Concepts — Row 2 (middle)
-    background:        { x: 14, y: 278, w: 195 },
-    metaphorical:      { x: 14, y: 400, w: 195 },
-    modularity:        { x: 238, y: 310, w: 220 },
-    patterns:          { x: 478, y: 350, w: 215 },
-    anemoia:           { x: 720, y: 322, w: 200 },
-    supply:            { x: 238, y: 452, w: 220 },
+    // Row 2 — middle area
+    background:        { x: 14, y: 268, w: 195 },
+    metaphorical:      { x: 14, y: 385, w: 195 },
+    modularity:        { x: 236, y: 302, w: 220 },
+    patterns:          { x: 476, y: 340, w: 215 },
+    anemoia:           { x: 714, y: 312, w: 205 },
+    supply:            { x: 236, y: 440, w: 220 },
 
-    // Concepts — Row 3 (bottom)
-    systems:           { x: 222, y: 575, w: 230 },
-    liminality:        { x: 472, y: 578, w: 220 },
-    threshold:         { x: 472, y: 700, w: 220 },
-    error:             { x: 878, y: 578, w: 200 },
-    glitch:            { x: 878, y: 700, w: 200 },
-    cause:             { x: 222, y: 710, w: 220 },
+    // Row 3 — bottom area
+    systems:           { x: 216, y: 560, w: 232 },
+    liminality:        { x: 466, y: 563, w: 224 },
+    threshold:         { x: 466, y: 690, w: 224 },
+    error:             { x: 870, y: 563, w: 200 },
+    glitch:            { x: 870, y: 690, w: 200 },
+    cause:             { x: 216, y: 700, w: 225 },
 
-    // Concepts — Right column (outside boundary)
-    statusquo:         { x: 1120, y: 295, w: 235 },
-    intersubjectivity: { x: 1120, y: 410, w: 235 },
-    entropy:           { x: 1120, y: 525, w: 230 },
-    decay:             { x: 1120, y: 638, w: 230 },
+    // Right column — outside boundary
+    statusquo:         { x: 1098, y: 290, w: 240 },
+    intersubjectivity: { x: 1098, y: 398, w: 240 },
+    entropy:           { x: 1098, y: 510, w: 232 },
+    decay:             { x: 1098, y: 625, w: 232 },
 
     // Tags
-    exploration:  { x: 445, y: 128, w: 158 },
-    adventure:    { x: 445, y: 170, w: 158 },
-    discovery:    { x: 445, y: 212, w: 158 },
-    luck:         { x: 920, y: 35, w: 120 },
-    knowledge:    { x: 920, y: 80, w: 120 },
-    dream:        { x: 920, y: 182, w: 120 },
-    longmoment:   { x: 715, y: 545, w: 148 },
-    shortmoment:  { x: 715, y: 680, w: 148 },
+    exploration:  { x: 440, y: 128, w: 155 },
+    adventure:    { x: 440, y: 166, w: 155 },
+    discovery:    { x: 440, y: 204, w: 155 },
+    luck:         { x: 915, y: 32, w: 115 },
+    knowledge:    { x: 915, y: 76, w: 115 },
+    dream:        { x: 915, y: 172, w: 115 },
+    longmoment:   { x: 712, y: 538, w: 140 },
+    shortmoment:  { x: 712, y: 668, w: 140 },
 
     // Labels
-    connections:  { x: 478, y: 515 },
-    tension:      { x: 18, y: 575 },
-    balance:      { x: 18, y: 655 },
-    perspectives: { x: 1385, y: 248 },
+    connections:  { x: 472, y: 505 },
+    tension:      { x: 16, y: 563 },
+    balance:      { x: 16, y: 645 },
+    perspectives: { x: 1370, y: 240 },
   };
 
   // ─── CONNECTION DEFINITIONS ───
@@ -72,8 +72,8 @@
     { from: 'serendipity', fromSide: 'right', to: 'luck', toSide: 'left' },
     { from: 'serendipity', fromSide: 'right', to: 'knowledge', toSide: 'left' },
 
-    // Discovery area → Surrealism
-    { from: 'adventure', fromSide: 'right', to: 'surrealism', toSide: 'left' },
+    // Discovery → Surrealism
+    { from: 'discovery', fromSide: 'right', to: 'surrealism', toSide: 'left' },
 
     // Surrealism → Dream
     { from: 'surrealism', fromSide: 'right', to: 'dream', toSide: 'left' },
