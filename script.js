@@ -1,75 +1,90 @@
 /* ═══════════════════════════════════════════
    FASCINATION PROJECT RESEARCH — SCRIPT
    Interactive concept map with pan/zoom
+   Orthogonal (right-angle) connections
    ═══════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
   // ─── CANVAS SIZE ───
-  const CANVAS_W = 1560;
-  const CANVAS_H = 860;
+  const CANVAS_W = 1600;
+  const CANVAS_H = 920;
 
-  // ─── NODE POSITIONS { x, y, w? } ───
+  // ─── NODE POSITIONS ───
+  // Carefully spaced to match the original diagram with no overlaps
   const layout = {
-    // Row 1 — top area
-    experience:        { x: 120, y: 130, w: 240 },
-    serendipity:       { x: 610, y: 22, w: 260 },
-    surrealism:        { x: 610, y: 200, w: 260 },
-    proactive:         { x: 1098, y: 22, w: 245 },
-    paradigm:          { x: 1098, y: 160, w: 225 },
+    // ── Top area ──
+    experience:        { x: 100, y: 140, w: 245 },
 
-    // Row 2 — middle area
-    background:        { x: 14, y: 268, w: 195 },
-    metaphorical:      { x: 14, y: 385, w: 195 },
-    modularity:        { x: 236, y: 302, w: 220 },
-    patterns:          { x: 476, y: 340, w: 215 },
-    anemoia:           { x: 714, y: 312, w: 205 },
-    supply:            { x: 236, y: 440, w: 220 },
+    // Tags between experience and serendipity/surrealism
+    exploration:       { x: 430, y: 120, w: 155 },
+    adventure:         { x: 430, y: 162, w: 155 },
+    discovery:         { x: 430, y: 204, w: 155 },
 
-    // Row 3 — bottom area
-    systems:           { x: 216, y: 560, w: 232 },
-    liminality:        { x: 466, y: 563, w: 224 },
-    threshold:         { x: 466, y: 690, w: 224 },
-    error:             { x: 870, y: 563, w: 200 },
-    glitch:            { x: 870, y: 690, w: 200 },
-    cause:             { x: 216, y: 700, w: 225 },
+    serendipity:       { x: 620, y: 26, w: 260 },
+    surrealism:        { x: 620, y: 210, w: 260 },
 
-    // Right column — outside boundary
-    statusquo:         { x: 1098, y: 290, w: 240 },
-    intersubjectivity: { x: 1098, y: 398, w: 240 },
-    entropy:           { x: 1098, y: 510, w: 232 },
-    decay:             { x: 1098, y: 625, w: 232 },
+    // Tags right of serendipity
+    luck:              { x: 930, y: 34, w: 110 },
+    knowledge:         { x: 930, y: 78, w: 110 },
 
-    // Tags
-    exploration:  { x: 440, y: 128, w: 155 },
-    adventure:    { x: 440, y: 166, w: 155 },
-    discovery:    { x: 440, y: 204, w: 155 },
-    luck:         { x: 915, y: 32, w: 115 },
-    knowledge:    { x: 915, y: 76, w: 115 },
-    dream:        { x: 915, y: 172, w: 115 },
-    longmoment:   { x: 712, y: 538, w: 140 },
-    shortmoment:  { x: 712, y: 668, w: 140 },
+    // Tag right of surrealism
+    dream:             { x: 930, y: 178, w: 110 },
 
-    // Labels
-    connections:  { x: 472, y: 505 },
-    tension:      { x: 16, y: 563 },
-    balance:      { x: 16, y: 645 },
-    perspectives: { x: 1370, y: 240 },
+    // Far right top
+    proactive:         { x: 1120, y: 26, w: 250 },
+    paradigm:          { x: 1120, y: 166, w: 228 },
+
+    // ── Middle area ──
+    background:        { x: 12, y: 280, w: 195 },
+    metaphorical:      { x: 12, y: 400, w: 195 },
+
+    modularity:        { x: 238, y: 315, w: 220 },
+    patterns:          { x: 480, y: 355, w: 215 },
+    anemoia:           { x: 720, y: 325, w: 205 },
+
+    supply:            { x: 238, y: 460, w: 220 },
+
+    // ── Bottom area ──
+    systems:           { x: 218, y: 580, w: 235 },
+    cause:             { x: 218, y: 730, w: 228 },
+
+    liminality:        { x: 476, y: 580, w: 225 },
+    threshold:         { x: 476, y: 720, w: 225 },
+
+    // Tags between liminality/threshold and error/glitch
+    longmoment:        { x: 725, y: 552, w: 145 },
+    shortmoment:       { x: 725, y: 692, w: 145 },
+
+    error:             { x: 898, y: 577, w: 200 },
+    glitch:            { x: 898, y: 720, w: 200 },
+
+    // ── Right column (outside boundary) ──
+    statusquo:         { x: 1120, y: 300, w: 242 },
+    intersubjectivity: { x: 1120, y: 418, w: 242 },
+    entropy:           { x: 1120, y: 532, w: 235 },
+    decay:             { x: 1120, y: 648, w: 235 },
+
+    // ── Labels ──
+    connections:       { x: 482, y: 520 },
+    tension:           { x: 14, y: 585 },
+    balance:           { x: 14, y: 670 },
+    perspectives:      { x: 1394, y: 248 },
   };
 
   // ─── CONNECTION DEFINITIONS ───
-  // type: 'arrow' (default), 'tree', 'line'
-  // sides: 'top', 'bottom', 'left', 'right'
+  // All rendered as orthogonal (right-angle) paths
   const connections = [
     // Experience ─┬─► Exploration / Adventure / Discovery
     { type: 'tree', from: 'experience', fromSide: 'right', to: ['exploration', 'adventure', 'discovery'], toSide: 'left' },
 
-    // Exploration ↑ Serendipity
+    // Exploration ↑ Serendipity (up then right)
     { from: 'exploration', fromSide: 'top', to: 'serendipity', toSide: 'bottom' },
 
-    // Serendipity → Luck, Knowledge
+    // Serendipity → Luck
     { from: 'serendipity', fromSide: 'right', to: 'luck', toSide: 'left' },
+    // Serendipity → Knowledge
     { from: 'serendipity', fromSide: 'right', to: 'knowledge', toSide: 'left' },
 
     // Discovery → Surrealism
@@ -81,9 +96,9 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
-    // Connections ←→ (bidirectional)
-    { type: 'biline', id: 'conn-left', from: 'connections', fromSide: 'left', length: 250 },
-    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 370 },
+    // Connections ←→ (horizontal arrows)
+    { type: 'biline', id: 'conn-left', from: 'connections', fromSide: 'left', length: 260 },
+    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 390 },
 
     // Liminality → A long moment → Error
     { from: 'liminality', fromSide: 'right', to: 'longmoment', toSide: 'left' },
@@ -93,13 +108,13 @@
     { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
     { from: 'shortmoment', fromSide: 'right', to: 'glitch', toSide: 'left' },
 
-    // Tension ← (left arrow from boundary area)
-    { type: 'biline', id: 'tension-arrow', from: 'tension', fromSide: 'left', length: -80, arrowStart: true },
-    // Balance ← (left arrow from boundary area)
-    { type: 'biline', id: 'balance-arrow', from: 'balance', fromSide: 'left', length: -80, arrowStart: true },
+    // Tension ←
+    { type: 'biline', id: 'tension-arrow', from: 'tension', fromSide: 'left', length: -80 },
+    // Balance ←
+    { type: 'biline', id: 'balance-arrow', from: 'balance', fromSide: 'left', length: -80 },
 
-    // Perspectives — vertical connector
-    { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 160 },
+    // Perspectives — vertical with arrows at both ends
+    { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 170 },
   ];
 
   // ─── ADJACENCY (for highlight system) ───
@@ -135,7 +150,6 @@
 
   function init() {
     positionNodes();
-    // Small delay so layout settles before drawing connections
     requestAnimationFrame(() => {
       drawAllConnections();
       adjacency = buildAdjacency();
@@ -189,7 +203,7 @@
   }
 
   // ═══════════════════════════════════════════
-  // DRAW CONNECTIONS
+  // SVG HELPERS
   // ═══════════════════════════════════════════
 
   function svgEl(tag, attrs) {
@@ -198,8 +212,54 @@
     return el;
   }
 
+  // Build an orthogonal (right-angle) SVG path between two anchors.
+  function orthoPath(a, fromSide, b, toSide) {
+    let points = [a];
+
+    if (fromSide === 'right' && toSide === 'left') {
+      const mx = Math.round((a.x + b.x) / 2);
+      points.push({ x: mx, y: a.y });
+      points.push({ x: mx, y: b.y });
+    } else if (fromSide === 'left' && toSide === 'right') {
+      const mx = Math.round((a.x + b.x) / 2);
+      points.push({ x: mx, y: a.y });
+      points.push({ x: mx, y: b.y });
+    } else if (fromSide === 'top' && toSide === 'bottom') {
+      const my = Math.round((a.y + b.y) / 2);
+      points.push({ x: a.x, y: my });
+      points.push({ x: b.x, y: my });
+    } else if (fromSide === 'bottom' && toSide === 'top') {
+      const my = Math.round((a.y + b.y) / 2);
+      points.push({ x: a.x, y: my });
+      points.push({ x: b.x, y: my });
+    } else if (fromSide === 'right' && toSide === 'top') {
+      points.push({ x: b.x, y: a.y });
+    } else if (fromSide === 'right' && toSide === 'bottom') {
+      points.push({ x: b.x, y: a.y });
+    } else if (fromSide === 'bottom' && toSide === 'left') {
+      points.push({ x: a.x, y: b.y });
+    } else if (fromSide === 'top' && toSide === 'left') {
+      points.push({ x: a.x, y: b.y });
+    } else {
+      const mx = Math.round((a.x + b.x) / 2);
+      points.push({ x: mx, y: a.y });
+      points.push({ x: mx, y: b.y });
+    }
+
+    points.push(b);
+
+    let d = `M${points[0].x},${points[0].y}`;
+    for (let i = 1; i < points.length; i++) {
+      d += ` L${points[i].x},${points[i].y}`;
+    }
+    return d;
+  }
+
+  // ═══════════════════════════════════════════
+  // DRAW CONNECTIONS
+  // ═══════════════════════════════════════════
+
   function drawAllConnections() {
-    // Preserve <defs>
     const defs = svg.querySelector('defs');
     svg.innerHTML = '';
     svg.appendChild(defs);
@@ -218,24 +278,23 @@
   function drawArrow(c) {
     const a = anchor(c.from, c.fromSide);
     const b = anchor(c.to, c.toSide);
-    const path = svgEl('path', {
-      d: `M${a.x},${a.y} L${b.x},${b.y}`,
+    const d = orthoPath(a, c.fromSide, b, c.toSide);
+    svg.appendChild(svgEl('path', {
+      d: d,
       class: 'connection-path',
       'marker-end': 'url(#arrowhead)',
       'data-from': c.from,
       'data-to': c.to,
-    });
-    svg.appendChild(path);
+    }));
   }
 
   function drawTree(c) {
     const fromPt = anchor(c.from, c.fromSide);
     const targets = c.to.map(id => anchor(id, c.toSide));
 
-    // Junction x = midpoint between from and first target
     const jx = Math.round((fromPt.x + targets[0].x) / 2);
 
-    // Trunk: from → junction
+    // Trunk: horizontal from → junction
     svg.appendChild(svgEl('line', {
       x1: fromPt.x, y1: fromPt.y,
       x2: jx, y2: fromPt.y,
@@ -253,7 +312,7 @@
       'data-from': c.from, 'data-to': c.to[0],
     }));
 
-    // Branches to each target
+    // Branches: horizontal to each target
     targets.forEach((t, i) => {
       svg.appendChild(svgEl('line', {
         x1: jx, y1: t.y,
@@ -282,7 +341,6 @@
       'data-to': c.id || c.from,
     };
 
-    // Arrow at the end (tip) pointing away from label
     if (c.fromSide === 'left') {
       attrs['marker-start'] = 'url(#arrowhead)';
     } else {
@@ -296,28 +354,21 @@
     const r = getRect(c.node);
     if (!r) return;
     const cx = r.x + r.w / 2;
-    const topY = r.y - 10;
+    const topY = r.y - 15;
     const botY = r.y + r.h + c.length;
 
+    // Top arrow (pointing up)
     svg.appendChild(svgEl('line', {
-      x1: cx, y1: topY,
-      x2: cx, y2: r.y + r.h + 5,
+      x1: cx, y1: r.y - 2,
+      x2: cx, y2: topY,
       class: 'connection-path',
+      'marker-end': 'url(#arrowhead)',
       'data-from': c.node, 'data-to': c.node,
     }));
 
-    // Top arrowhead
+    // Bottom arrow (pointing down)
     svg.appendChild(svgEl('line', {
-      x1: cx, y1: topY,
-      x2: cx, y2: topY - 1,
-      class: 'connection-path',
-      'marker-start': 'url(#arrowhead)',
-      'data-from': c.node, 'data-to': c.node,
-    }));
-
-    // Bottom
-    svg.appendChild(svgEl('line', {
-      x1: cx, y1: r.y + r.h + 5,
+      x1: cx, y1: r.y + r.h + 2,
       x2: cx, y2: botY,
       class: 'connection-path',
       'marker-end': 'url(#arrowhead)',
@@ -356,7 +407,6 @@
     let dragging = false;
     let startX, startY;
 
-    // --- MOUSE ---
     viewport.addEventListener('pointerdown', e => {
       if (e.target.closest('.node') || e.target.closest('button')) return;
       dragging = true;
@@ -383,14 +433,12 @@
       viewport.classList.remove('dragging');
     });
 
-    // --- WHEEL ZOOM ---
     viewport.addEventListener('wheel', e => {
       e.preventDefault();
       const delta = e.deltaY > 0 ? -0.08 : 0.08;
       zoomAt(e.clientX, e.clientY, delta);
     }, { passive: false });
 
-    // --- PINCH ZOOM ---
     let lastPinchDist = 0;
 
     viewport.addEventListener('touchstart', e => {
@@ -441,7 +489,6 @@
 
     window.addEventListener('resize', fitToView);
 
-    // Keyboard shortcuts
     document.addEventListener('keydown', e => {
       if (e.key === '+' || e.key === '=') {
         e.preventDefault();
@@ -464,11 +511,9 @@
     const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
 
-    // Load stored preference
     const stored = localStorage.getItem('fpr-theme');
     if (stored) html.setAttribute('data-theme', stored);
 
-    // System preference fallback
     if (!stored && window.matchMedia('(prefers-color-scheme: light)').matches) {
       html.setAttribute('data-theme', 'light');
     }
@@ -496,7 +541,6 @@
       node.addEventListener('mouseenter', () => highlight(nid));
       node.addEventListener('mouseleave', () => clearHighlight());
 
-      // Touch: tap to toggle highlight
       node.addEventListener('click', e => {
         e.stopPropagation();
         if (activeId === nid) {
@@ -509,7 +553,6 @@
       });
     });
 
-    // Tap on empty space to clear
     viewport.addEventListener('click', e => {
       if (!e.target.closest('.node')) {
         clearHighlight();
