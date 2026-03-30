@@ -7,49 +7,55 @@
   'use strict';
 
   // ─── CANVAS SIZE ───
-  const CANVAS_W = 1520;
-  const CANVAS_H = 820;
+  const CANVAS_W = 1580;
+  const CANVAS_H = 880;
 
   // ─── NODE POSITIONS { x, y, w? } ───
   const layout = {
-    // Concepts
-    experience:        { x: 115, y: 148, w: 228 },
-    serendipity:       { x: 598, y: 28, w: 252 },
-    surrealism:        { x: 598, y: 210, w: 252 },
-    proactive:         { x: 1082, y: 28, w: 232 },
-    paradigm:          { x: 1082, y: 170, w: 216 },
-    background:        { x: 12, y: 265, w: 192 },
-    metaphorical:      { x: 12, y: 378, w: 192 },
-    modularity:        { x: 228, y: 308, w: 216 },
-    patterns:          { x: 452, y: 345, w: 210 },
-    anemoia:           { x: 692, y: 318, w: 196 },
-    supply:            { x: 228, y: 442, w: 216 },
-    systems:           { x: 212, y: 562, w: 226 },
-    liminality:        { x: 448, y: 568, w: 216 },
-    threshold:         { x: 448, y: 678, w: 216 },
-    error:             { x: 848, y: 568, w: 195 },
-    glitch:            { x: 848, y: 678, w: 195 },
-    statusquo:         { x: 1082, y: 284, w: 230 },
-    intersubjectivity: { x: 1082, y: 390, w: 230 },
-    entropy:           { x: 1082, y: 502, w: 226 },
-    decay:             { x: 1082, y: 612, w: 226 },
-    cause:             { x: 212, y: 690, w: 216 },
+    // Concepts — Row 1 (top)
+    experience:        { x: 115, y: 145, w: 235 },
+    serendipity:       { x: 618, y: 25, w: 255 },
+    surrealism:        { x: 618, y: 215, w: 255 },
+    proactive:         { x: 1120, y: 25, w: 240 },
+    paradigm:          { x: 1120, y: 175, w: 220 },
+
+    // Concepts — Row 2 (middle)
+    background:        { x: 14, y: 278, w: 195 },
+    metaphorical:      { x: 14, y: 400, w: 195 },
+    modularity:        { x: 238, y: 310, w: 220 },
+    patterns:          { x: 478, y: 350, w: 215 },
+    anemoia:           { x: 720, y: 322, w: 200 },
+    supply:            { x: 238, y: 452, w: 220 },
+
+    // Concepts — Row 3 (bottom)
+    systems:           { x: 222, y: 575, w: 230 },
+    liminality:        { x: 472, y: 578, w: 220 },
+    threshold:         { x: 472, y: 700, w: 220 },
+    error:             { x: 878, y: 578, w: 200 },
+    glitch:            { x: 878, y: 700, w: 200 },
+    cause:             { x: 222, y: 710, w: 220 },
+
+    // Concepts — Right column (outside boundary)
+    statusquo:         { x: 1120, y: 295, w: 235 },
+    intersubjectivity: { x: 1120, y: 410, w: 235 },
+    entropy:           { x: 1120, y: 525, w: 230 },
+    decay:             { x: 1120, y: 638, w: 230 },
 
     // Tags
-    exploration:  { x: 438, y: 128, w: 152 },
-    adventure:    { x: 438, y: 168, w: 152 },
-    discovery:    { x: 438, y: 208, w: 152 },
-    luck:         { x: 898, y: 38, w: 115 },
-    knowledge:    { x: 898, y: 80, w: 115 },
-    dream:        { x: 898, y: 178, w: 115 },
-    longmoment:   { x: 688, y: 535, w: 145 },
-    shortmoment:  { x: 688, y: 662, w: 145 },
+    exploration:  { x: 445, y: 128, w: 158 },
+    adventure:    { x: 445, y: 170, w: 158 },
+    discovery:    { x: 445, y: 212, w: 158 },
+    luck:         { x: 920, y: 35, w: 120 },
+    knowledge:    { x: 920, y: 80, w: 120 },
+    dream:        { x: 920, y: 182, w: 120 },
+    longmoment:   { x: 715, y: 545, w: 148 },
+    shortmoment:  { x: 715, y: 680, w: 148 },
 
     // Labels
-    connections:  { x: 455, y: 505 },
-    tension:      { x: 18, y: 558 },
-    balance:      { x: 18, y: 638 },
-    perspectives: { x: 1338, y: 244 },
+    connections:  { x: 478, y: 515 },
+    tension:      { x: 18, y: 575 },
+    balance:      { x: 18, y: 655 },
+    perspectives: { x: 1385, y: 248 },
   };
 
   // ─── CONNECTION DEFINITIONS ───

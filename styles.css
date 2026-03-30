@@ -14,6 +14,8 @@
   --title: #ededf5;
   --accent: #818cf8;
   --accent-glow: rgba(129, 140, 248, 0.12);
+  --shine-mid: rgba(129, 140, 248, 0.04);
+  --shine-end: rgba(129, 140, 248, 0.10);
   --arrow-color: rgba(255, 255, 255, 0.15);
   --arrow-hover: rgba(129, 140, 248, 0.7);
   --boundary-border: rgba(255, 255, 255, 0.045);
@@ -44,7 +46,9 @@
   --text-secondary: #6e6e82;
   --title: #1a1a30;
   --accent: #6366f1;
-  --accent-glow: rgba(99, 102, 241, 0.08);
+  --accent-glow: rgba(99, 102, 241, 0.10);
+  --shine-mid: rgba(99, 102, 241, 0.05);
+  --shine-end: rgba(99, 102, 241, 0.12);
   --arrow-color: rgba(0, 0, 0, 0.12);
   --arrow-hover: rgba(99, 102, 241, 0.6);
   --boundary-border: rgba(0, 0, 0, 0.05);
@@ -167,8 +171,8 @@ header {
 
 #canvas {
   position: absolute;
-  width: 1520px;
-  height: 820px;
+  width: 1580px;
+  height: 880px;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -199,9 +203,9 @@ header {
 .boundary-box {
   position: absolute;
   left: 5px;
-  top: 18px;
-  width: 1058px;
-  height: 748px;
+  top: 12px;
+  width: 1095px;
+  height: 798px;
   border: 1px solid var(--boundary-border);
   border-radius: 16px;
   pointer-events: none;
@@ -232,6 +236,31 @@ header {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   cursor: default;
+  overflow: hidden;
+}
+
+/* Purple gradient shine overlay */
+.node.concept::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 25%,
+    var(--shine-mid) 55%,
+    var(--shine-end) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.node.concept:hover::after,
+.node.concept.highlighted::after {
+  opacity: 1;
 }
 
 .node.concept:hover {
@@ -314,6 +343,10 @@ header {
 .node.highlighted.concept {
   border-color: var(--accent) !important;
   box-shadow: 0 0 24px var(--accent-glow), var(--shadow) !important;
+}
+
+.node.highlighted.concept::after {
+  opacity: 1;
 }
 
 .node.highlighted.tag {
