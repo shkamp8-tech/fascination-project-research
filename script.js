@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const CANVAS_W = 1750;
+  const CANVAS_W = 1800;
   const CANVAS_H = 1050;
 
   // ─── NODE POSITIONS ───
@@ -15,62 +15,62 @@
   const layout = {
 
     // ═══ TOP ROW ═══
-    experience:        { x: 100,  y: 140,  w: 250 },
+    experience:        { x: 20,   y: 130,  w: 250 },
 
     // Tags (between Experience and Serendipity/Surrealism)
-    exploration:       { x: 430,  y: 125,  w: 150 },
-    adventure:         { x: 430,  y: 168,  w: 150 },
-    discovery:         { x: 430,  y: 211,  w: 150 },
+    exploration:       { x: 310,  y: 108,  w: 140 },
+    adventure:         { x: 310,  y: 150,  w: 140 },
+    discovery:         { x: 310,  y: 192,  w: 140 },
 
     // Center-top concepts
-    serendipity:       { x: 635,  y: 28,   w: 250 },
-    surrealism:        { x: 635,  y: 218,  w: 250 },
+    serendipity:       { x: 500,  y: 20,   w: 250 },
+    surrealism:        { x: 500,  y: 200,  w: 250 },
 
     // Small tags right of serendipity / surrealism
-    luck:              { x: 930,  y: 38,   w: 110 },
-    knowledge:         { x: 930,  y: 78,   w: 110 },
-    dream:             { x: 930,  y: 185,  w: 110 },
+    luck:              { x: 790,  y: 30,   w: 105 },
+    knowledge:         { x: 790,  y: 70,   w: 105 },
+    dream:             { x: 790,  y: 210,  w: 105 },
 
     // Far-right top
-    proactive:         { x: 1160, y: 28,   w: 250 },
-    paradigm:          { x: 1160, y: 170,  w: 250 },
+    proactive:         { x: 1050, y: 20,   w: 250 },
+    paradigm:          { x: 1050, y: 170,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
-    background:        { x: 14,   y: 290,  w: 250 },
-    metaphorical:      { x: 14,   y: 462,  w: 250 },
+    background:        { x: 20,   y: 320,  w: 250 },
+    metaphorical:      { x: 20,   y: 470,  w: 250 },
 
-    modularity:        { x: 295,  y: 312,  w: 250 },
-    supply:            { x: 295,  y: 462,  w: 250 },
+    modularity:        { x: 310,  y: 320,  w: 250 },
+    supply:            { x: 310,  y: 470,  w: 250 },
 
-    patterns:          { x: 575,  y: 355,  w: 250 },
-    anemoia:           { x: 855,  y: 328,  w: 250 },
+    patterns:          { x: 600,  y: 360,  w: 250 },
+    anemoia:           { x: 890,  y: 340,  w: 250 },
 
-    // Far-right middle + bottom
-    statusquo:         { x: 1160, y: 300,  w: 250 },
-    intersubjectivity: { x: 1160, y: 420,  w: 250 },
-    entropy:           { x: 1160, y: 540,  w: 250 },
-    decay:             { x: 1160, y: 658,  w: 250 },
+    // Far-right column
+    statusquo:         { x: 1340, y: 320,  w: 250 },
+    intersubjectivity: { x: 1340, y: 440,  w: 250 },
+    entropy:           { x: 1340, y: 560,  w: 250 },
+    decay:             { x: 1340, y: 680,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 575,  y: 510 },
+    connections:       { x: 600,  y: 520 },
 
     // ═══ BOTTOM ROW ═══
-    systems:           { x: 295,  y: 600,  w: 250 },
-    cause:             { x: 295,  y: 760,  w: 250 },
+    systems:           { x: 310,  y: 610,  w: 250 },
+    cause:             { x: 310,  y: 770,  w: 250 },
 
-    liminality:        { x: 575,  y: 600,  w: 250 },
-    threshold:         { x: 575,  y: 760,  w: 250 },
+    liminality:        { x: 600,  y: 610,  w: 250 },
+    threshold:         { x: 600,  y: 770,  w: 250 },
 
-    longmoment:        { x: 855,  y: 580,  w: 155 },
-    shortmoment:       { x: 855,  y: 730,  w: 155 },
+    longmoment:        { x: 880,  y: 600,  w: 145 },
+    shortmoment:       { x: 880,  y: 750,  w: 145 },
 
-    error:             { x: 1040, y: 600,  w: 250 },
-    glitch:            { x: 1040, y: 760,  w: 250 },
+    error:             { x: 1060, y: 590,  w: 250 },
+    glitch:            { x: 1060, y: 750,  w: 250 },
 
     // ═══ LABELS ═══
-    tension:           { x: 14,   y: 610 },
-    balance:           { x: 14,   y: 720 },
-    perspectives:      { x: 1438, y: 252 },
+    tension:           { x: 20,   y: 620 },
+    balance:           { x: 20,   y: 738 },
+    perspectives:      { x: 1610, y: 360 },
   };
 
   // ─── CONNECTIONS ───
@@ -107,9 +107,9 @@
     { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
     { from: 'shortmoment', fromSide: 'right', to: 'glitch', toSide: 'left' },
 
-    // Tension ← / Balance ←
-    { type: 'biline', id: 'tension-arrow', from: 'tension',  fromSide: 'left', length: -80 },
-    { type: 'biline', id: 'balance-arrow', from: 'balance',  fromSide: 'left', length: -80 },
+    // Tension → / Balance →
+    { type: 'biline', id: 'tension-arrow', from: 'tension',  fromSide: 'right', length: 80 },
+    { type: 'biline', id: 'balance-arrow', from: 'balance',  fromSide: 'right', length: 80 },
 
     // Perspectives ↕
     { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 175 },
