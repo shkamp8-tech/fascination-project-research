@@ -6,8 +6,8 @@
 (function () {
   'use strict';
 
-  const CANVAS_W = 1700;
-  const CANVAS_H = 1000;
+  const CANVAS_W = 1750;
+  const CANVAS_H = 1050;
 
   // ─── NODE POSITIONS ───
   // Each zone uses consistent widths. Generous vertical gaps prevent overlap
@@ -15,35 +15,35 @@
   const layout = {
 
     // ═══ TOP ROW ═══
-    experience:        { x: 100,  y: 140,  w: 260 },
+    experience:        { x: 100,  y: 140,  w: 250 },
 
     // Tags (between Experience and Serendipity/Surrealism)
-    exploration:       { x: 440,  y: 130,  w: 158 },
-    adventure:         { x: 440,  y: 170,  w: 158 },
-    discovery:         { x: 440,  y: 210,  w: 158 },
+    exploration:       { x: 430,  y: 125,  w: 150 },
+    adventure:         { x: 430,  y: 168,  w: 150 },
+    discovery:         { x: 430,  y: 211,  w: 150 },
 
     // Center-top concepts
-    serendipity:       { x: 635,  y: 28,   w: 265 },
-    surrealism:        { x: 635,  y: 218,  w: 265 },
+    serendipity:       { x: 635,  y: 28,   w: 250 },
+    surrealism:        { x: 635,  y: 218,  w: 250 },
 
     // Small tags right of serendipity / surrealism
-    luck:              { x: 940,  y: 38,   w: 118 },
-    knowledge:         { x: 940,  y: 82,   w: 118 },
-    dream:             { x: 940,  y: 185,  w: 118 },
+    luck:              { x: 930,  y: 38,   w: 110 },
+    knowledge:         { x: 930,  y: 78,   w: 110 },
+    dream:             { x: 930,  y: 185,  w: 110 },
 
     // Far-right top
     proactive:         { x: 1160, y: 28,   w: 250 },
     paradigm:          { x: 1160, y: 170,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
-    background:        { x: 14,   y: 290,  w: 200 },
-    metaphorical:      { x: 14,   y: 462,  w: 200 },
+    background:        { x: 14,   y: 290,  w: 250 },
+    metaphorical:      { x: 14,   y: 462,  w: 250 },
 
-    modularity:        { x: 245,  y: 312,  w: 230 },
-    supply:            { x: 245,  y: 462,  w: 230 },
+    modularity:        { x: 295,  y: 312,  w: 250 },
+    supply:            { x: 295,  y: 462,  w: 250 },
 
-    patterns:          { x: 505,  y: 355,  w: 225 },
-    anemoia:           { x: 758,  y: 328,  w: 205 },
+    patterns:          { x: 575,  y: 355,  w: 250 },
+    anemoia:           { x: 855,  y: 328,  w: 250 },
 
     // Far-right middle + bottom
     statusquo:         { x: 1160, y: 300,  w: 250 },
@@ -52,24 +52,24 @@
     decay:             { x: 1160, y: 658,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 508,  y: 548 },
+    connections:       { x: 575,  y: 510 },
 
     // ═══ BOTTOM ROW ═══
-    systems:           { x: 232,  y: 592,  w: 230 },
-    cause:             { x: 232,  y: 755,  w: 230 },
+    systems:           { x: 295,  y: 600,  w: 250 },
+    cause:             { x: 295,  y: 760,  w: 250 },
 
-    liminality:        { x: 502,  y: 592,  w: 225 },
-    threshold:         { x: 502,  y: 748,  w: 225 },
+    liminality:        { x: 575,  y: 600,  w: 250 },
+    threshold:         { x: 575,  y: 760,  w: 250 },
 
-    longmoment:        { x: 755,  y: 568,  w: 150 },
-    shortmoment:       { x: 755,  y: 718,  w: 150 },
+    longmoment:        { x: 855,  y: 580,  w: 155 },
+    shortmoment:       { x: 855,  y: 730,  w: 155 },
 
-    error:             { x: 932,  y: 588,  w: 205 },
-    glitch:            { x: 932,  y: 740,  w: 205 },
+    error:             { x: 1040, y: 600,  w: 250 },
+    glitch:            { x: 1040, y: 760,  w: 250 },
 
     // ═══ LABELS ═══
-    tension:           { x: 14,   y: 600 },
-    balance:           { x: 14,   y: 695 },
+    tension:           { x: 14,   y: 610 },
+    balance:           { x: 14,   y: 720 },
     perspectives:      { x: 1438, y: 252 },
   };
 
@@ -193,45 +193,27 @@
   }
 
   /**
-   * Build an orthogonal (right-angle) path between two anchors.
-   * Bends are placed so that each segment is clearly visible,
-   * with at least MIN_LEG pixels on every vertical/horizontal leg.
+   * Build a smooth cubic bezier curve between two anchors.
+   * Control points extend outward from each anchor in the direction of its side.
    */
-  function orthoPath(a, fromSide, b, toSide) {
-    const MIN_LEG = 18;
-    let pts = [a];
+  function curvePath(a, fromSide, b, toSide) {
+    const dx = Math.abs(b.x - a.x);
+    const dy = Math.abs(b.y - a.y);
+    const tension = Math.max(40, Math.min(dx, dy) * 0.45);
 
-    if (fromSide === 'right' && toSide === 'left') {
-      const mx = Math.round(a.x + Math.max((b.x - a.x) / 2, MIN_LEG));
-      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
-
-    } else if (fromSide === 'left' && toSide === 'right') {
-      const mx = Math.round(b.x + Math.max((a.x - b.x) / 2, MIN_LEG));
-      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
-
-    } else if (fromSide === 'top' && toSide === 'bottom') {
-      // Go up from source, horizontal to target column, then down into target
-      const bendY = Math.min(a.y, b.y) - MIN_LEG;
-      pts.push({ x: a.x, y: bendY }, { x: b.x, y: bendY });
-
-    } else if (fromSide === 'bottom' && toSide === 'top') {
-      const bendY = Math.max(a.y, b.y) + MIN_LEG;
-      pts.push({ x: a.x, y: bendY }, { x: b.x, y: bendY });
-
-    } else if (fromSide === 'right' && toSide === 'top') {
-      pts.push({ x: b.x, y: a.y });
-
-    } else if (fromSide === 'bottom' && toSide === 'left') {
-      pts.push({ x: a.x, y: b.y });
-
-    } else {
-      // Generic fallback — midpoint bend
-      const mx = Math.round((a.x + b.x) / 2);
-      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
+    function cp(pt, side, dist) {
+      switch (side) {
+        case 'right':  return { x: pt.x + dist, y: pt.y };
+        case 'left':   return { x: pt.x - dist, y: pt.y };
+        case 'top':    return { x: pt.x, y: pt.y - dist };
+        case 'bottom': return { x: pt.x, y: pt.y + dist };
+        default:       return { x: pt.x + dist, y: pt.y };
+      }
     }
 
-    pts.push(b);
-    return 'M' + pts.map(p => `${p.x},${p.y}`).join(' L');
+    const c1 = cp(a, fromSide, tension);
+    const c2 = cp(b, toSide, tension);
+    return `M${a.x},${a.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${b.x},${b.y}`;
   }
 
   // ═══════════════════════════════════════════
@@ -258,7 +240,7 @@
     const a = anchor(c.from, c.fromSide);
     const b = anchor(c.to,   c.toSide);
     svg.appendChild(svgEl('path', {
-      d: orthoPath(a, c.fromSide, b, c.toSide),
+      d: curvePath(a, c.fromSide, b, c.toSide),
       class: 'connection-path',
       'marker-end': 'url(#arrowhead)',
       'data-from': c.from,
@@ -269,26 +251,11 @@
   function drawTree(c) {
     const from = anchor(c.from, c.fromSide);
     const tgts = c.to.map(id => anchor(id, c.toSide));
-    const jx   = Math.round((from.x + tgts[0].x) / 2);
-    const minY = Math.min(...tgts.map(t => t.y));
-    const maxY = Math.max(...tgts.map(t => t.y));
 
-    // Trunk (horizontal)
-    svg.appendChild(svgEl('line', {
-      x1: from.x, y1: from.y, x2: jx, y2: from.y,
-      class: 'connection-path',
-      'data-from': c.from, 'data-to': c.to[0],
-    }));
-    // Vertical bar
-    svg.appendChild(svgEl('line', {
-      x1: jx, y1: minY, x2: jx, y2: maxY,
-      class: 'connection-path',
-      'data-from': c.from, 'data-to': c.to[0],
-    }));
-    // Branches (horizontal + arrow)
+    // Draw a smooth curve from source to each target
     tgts.forEach((t, i) => {
-      svg.appendChild(svgEl('line', {
-        x1: jx, y1: t.y, x2: t.x, y2: t.y,
+      svg.appendChild(svgEl('path', {
+        d: curvePath(from, c.fromSide, t, c.toSide),
         class: 'connection-path',
         'marker-end': 'url(#arrowhead)',
         'data-from': c.from, 'data-to': c.to[i],

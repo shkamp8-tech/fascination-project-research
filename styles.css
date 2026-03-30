@@ -22,7 +22,7 @@
   --tag-bg: rgba(255, 255, 255, 0.05);
   --tag-border: rgba(255, 255, 255, 0.1);
   --tag-hover-border: rgba(129, 140, 248, 0.5);
-  --label-color: #5a5a72;
+  --label-color: #8888a8;
   --shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
   --header-bg: rgba(11, 11, 16, 0.88);
   --header-border: rgba(255, 255, 255, 0.06);
@@ -55,7 +55,7 @@
   --tag-bg: rgba(0, 0, 0, 0.025);
   --tag-border: rgba(0, 0, 0, 0.07);
   --tag-hover-border: rgba(99, 102, 241, 0.4);
-  --label-color: #8a8a9e;
+  --label-color: #5a5a78;
   --shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
   --header-bg: rgba(244, 244, 248, 0.9);
   --header-border: rgba(0, 0, 0, 0.06);
@@ -171,8 +171,8 @@ header {
 
 #canvas {
   position: absolute;
-  width: 1700px;
-  height: 1000px;
+  width: 1750px;
+  height: 1050px;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -204,8 +204,8 @@ header {
   position: absolute;
   left: 4px;
   top: 12px;
-  width: 1140px;
-  height: 866px;
+  width: 1280px;
+  height: 900px;
   border: 1px solid var(--boundary-border);
   border-radius: 14px;
   pointer-events: none;
@@ -315,13 +315,15 @@ header {
    ═══════════════════════════════════════════ */
 
 .node.label {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   font-style: italic;
   color: var(--label-color);
   white-space: nowrap;
   cursor: default;
   pointer-events: none;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 /* ═══════════════════════════════════════════
