@@ -1,90 +1,89 @@
 /* ═══════════════════════════════════════════
    FASCINATION PROJECT RESEARCH — SCRIPT
-   Interactive concept map with pan/zoom
-   Orthogonal (right-angle) connections
+   Orthogonal concept map with pan/zoom
    ═══════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  // ─── CANVAS SIZE ───
-  const CANVAS_W = 1600;
-  const CANVAS_H = 920;
+  const CANVAS_W = 1700;
+  const CANVAS_H = 1000;
 
   // ─── NODE POSITIONS ───
-  // Carefully spaced to match the original diagram with no overlaps
+  // Each zone uses consistent widths. Generous vertical gaps prevent overlap
+  // even when cards have long wrapped text.
   const layout = {
-    // ── Top area ──
-    experience:        { x: 100, y: 140, w: 245 },
 
-    // Tags between experience and serendipity/surrealism
-    exploration:       { x: 430, y: 120, w: 155 },
-    adventure:         { x: 430, y: 162, w: 155 },
-    discovery:         { x: 430, y: 204, w: 155 },
+    // ═══ TOP ROW ═══
+    experience:        { x: 100,  y: 140,  w: 260 },
 
-    serendipity:       { x: 620, y: 26, w: 260 },
-    surrealism:        { x: 620, y: 210, w: 260 },
+    // Tags (between Experience and Serendipity/Surrealism)
+    exploration:       { x: 440,  y: 130,  w: 158 },
+    adventure:         { x: 440,  y: 170,  w: 158 },
+    discovery:         { x: 440,  y: 210,  w: 158 },
 
-    // Tags right of serendipity
-    luck:              { x: 930, y: 34, w: 110 },
-    knowledge:         { x: 930, y: 78, w: 110 },
+    // Center-top concepts
+    serendipity:       { x: 635,  y: 28,   w: 265 },
+    surrealism:        { x: 635,  y: 218,  w: 265 },
 
-    // Tag right of surrealism
-    dream:             { x: 930, y: 178, w: 110 },
+    // Small tags right of serendipity / surrealism
+    luck:              { x: 940,  y: 38,   w: 118 },
+    knowledge:         { x: 940,  y: 82,   w: 118 },
+    dream:             { x: 940,  y: 185,  w: 118 },
 
-    // Far right top
-    proactive:         { x: 1120, y: 26, w: 250 },
-    paradigm:          { x: 1120, y: 166, w: 228 },
+    // Far-right top
+    proactive:         { x: 1160, y: 28,   w: 250 },
+    paradigm:          { x: 1160, y: 170,  w: 250 },
 
-    // ── Middle area ──
-    background:        { x: 12, y: 280, w: 195 },
-    metaphorical:      { x: 12, y: 400, w: 195 },
+    // ═══ MIDDLE ROW ═══
+    background:        { x: 14,   y: 290,  w: 200 },
+    metaphorical:      { x: 14,   y: 462,  w: 200 },
 
-    modularity:        { x: 238, y: 315, w: 220 },
-    patterns:          { x: 480, y: 355, w: 215 },
-    anemoia:           { x: 720, y: 325, w: 205 },
+    modularity:        { x: 245,  y: 312,  w: 230 },
+    supply:            { x: 245,  y: 462,  w: 230 },
 
-    supply:            { x: 238, y: 460, w: 220 },
+    patterns:          { x: 505,  y: 355,  w: 225 },
+    anemoia:           { x: 758,  y: 328,  w: 205 },
 
-    // ── Bottom area ──
-    systems:           { x: 218, y: 580, w: 235 },
-    cause:             { x: 218, y: 730, w: 228 },
+    // Far-right middle + bottom
+    statusquo:         { x: 1160, y: 300,  w: 250 },
+    intersubjectivity: { x: 1160, y: 420,  w: 250 },
+    entropy:           { x: 1160, y: 540,  w: 250 },
+    decay:             { x: 1160, y: 658,  w: 250 },
 
-    liminality:        { x: 476, y: 580, w: 225 },
-    threshold:         { x: 476, y: 720, w: 225 },
+    // ═══ CONNECTIONS LABEL ═══
+    connections:       { x: 508,  y: 548 },
 
-    // Tags between liminality/threshold and error/glitch
-    longmoment:        { x: 725, y: 552, w: 145 },
-    shortmoment:       { x: 725, y: 692, w: 145 },
+    // ═══ BOTTOM ROW ═══
+    systems:           { x: 232,  y: 592,  w: 230 },
+    cause:             { x: 232,  y: 755,  w: 230 },
 
-    error:             { x: 898, y: 577, w: 200 },
-    glitch:            { x: 898, y: 720, w: 200 },
+    liminality:        { x: 502,  y: 592,  w: 225 },
+    threshold:         { x: 502,  y: 748,  w: 225 },
 
-    // ── Right column (outside boundary) ──
-    statusquo:         { x: 1120, y: 300, w: 242 },
-    intersubjectivity: { x: 1120, y: 418, w: 242 },
-    entropy:           { x: 1120, y: 532, w: 235 },
-    decay:             { x: 1120, y: 648, w: 235 },
+    longmoment:        { x: 755,  y: 568,  w: 150 },
+    shortmoment:       { x: 755,  y: 718,  w: 150 },
 
-    // ── Labels ──
-    connections:       { x: 482, y: 520 },
-    tension:           { x: 14, y: 585 },
-    balance:           { x: 14, y: 670 },
-    perspectives:      { x: 1394, y: 248 },
+    error:             { x: 932,  y: 588,  w: 205 },
+    glitch:            { x: 932,  y: 740,  w: 205 },
+
+    // ═══ LABELS ═══
+    tension:           { x: 14,   y: 600 },
+    balance:           { x: 14,   y: 695 },
+    perspectives:      { x: 1438, y: 252 },
   };
 
-  // ─── CONNECTION DEFINITIONS ───
-  // All rendered as orthogonal (right-angle) paths
+  // ─── CONNECTIONS ───
   const connections = [
     // Experience ─┬─► Exploration / Adventure / Discovery
-    { type: 'tree', from: 'experience', fromSide: 'right', to: ['exploration', 'adventure', 'discovery'], toSide: 'left' },
+    { type: 'tree', from: 'experience', fromSide: 'right',
+      to: ['exploration', 'adventure', 'discovery'], toSide: 'left' },
 
-    // Exploration ↑ Serendipity (up then right)
+    // Exploration ↑ Serendipity
     { from: 'exploration', fromSide: 'top', to: 'serendipity', toSide: 'bottom' },
 
-    // Serendipity → Luck
+    // Serendipity → Luck / Knowledge
     { from: 'serendipity', fromSide: 'right', to: 'luck', toSide: 'left' },
-    // Serendipity → Knowledge
     { from: 'serendipity', fromSide: 'right', to: 'knowledge', toSide: 'left' },
 
     // Discovery → Surrealism
@@ -96,9 +95,9 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
-    // Connections ←→ (horizontal arrows)
-    { type: 'biline', id: 'conn-left', from: 'connections', fromSide: 'left', length: 260 },
-    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 390 },
+    // Connections ←→
+    { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 275 },
+    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 400 },
 
     // Liminality → A long moment → Error
     { from: 'liminality', fromSide: 'right', to: 'longmoment', toSide: 'left' },
@@ -108,16 +107,15 @@
     { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
     { from: 'shortmoment', fromSide: 'right', to: 'glitch', toSide: 'left' },
 
-    // Tension ←
-    { type: 'biline', id: 'tension-arrow', from: 'tension', fromSide: 'left', length: -80 },
-    // Balance ←
-    { type: 'biline', id: 'balance-arrow', from: 'balance', fromSide: 'left', length: -80 },
+    // Tension ← / Balance ←
+    { type: 'biline', id: 'tension-arrow', from: 'tension',  fromSide: 'left', length: -80 },
+    { type: 'biline', id: 'balance-arrow', from: 'balance',  fromSide: 'left', length: -80 },
 
-    // Perspectives — vertical with arrows at both ends
-    { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 170 },
+    // Perspectives ↕
+    { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 175 },
   ];
 
-  // ─── ADJACENCY (for highlight system) ───
+  // ─── ADJACENCY ───
   function buildAdjacency() {
     const adj = {};
     function add(a, b) {
@@ -127,26 +125,17 @@
       adj[b].add(a);
     }
     connections.forEach(c => {
-      if (c.type === 'tree') {
-        c.to.forEach(t => add(c.from, t));
-      } else if (c.from && c.to && typeof c.to === 'string') {
-        add(c.from, c.to);
-      }
+      if (c.type === 'tree') c.to.forEach(t => add(c.from, t));
+      else if (c.from && c.to && typeof c.to === 'string') add(c.from, c.to);
     });
     return adj;
   }
 
   // ═══════════════════════════════════════════
-  // INIT
-  // ═══════════════════════════════════════════
-
   const viewport = document.getElementById('viewport');
-  const canvas = document.getElementById('canvas');
-  const svg = document.getElementById('connections-svg');
-
-  let scale = 1;
-  let tx = 0, ty = 0;
-  let adjacency;
+  const canvas   = document.getElementById('canvas');
+  const svg      = document.getElementById('connections-svg');
+  let scale = 1, tx = 0, ty = 0, adjacency;
 
   function init() {
     positionNodes();
@@ -162,32 +151,23 @@
   }
 
   // ═══════════════════════════════════════════
-  // POSITION NODES
+  // POSITION
   // ═══════════════════════════════════════════
 
   function positionNodes() {
-    Object.entries(layout).forEach(([id, pos]) => {
+    Object.entries(layout).forEach(([id, p]) => {
       const el = document.getElementById('n-' + id);
       if (!el) return;
-      el.style.left = pos.x + 'px';
-      el.style.top = pos.y + 'px';
-      if (pos.w) el.style.width = pos.w + 'px';
+      el.style.left = p.x + 'px';
+      el.style.top  = p.y + 'px';
+      if (p.w) el.style.width = p.w + 'px';
     });
   }
-
-  // ═══════════════════════════════════════════
-  // GET NODE GEOMETRY
-  // ═══════════════════════════════════════════
 
   function getRect(id) {
     const el = document.getElementById('n-' + id);
     if (!el) return null;
-    return {
-      x: el.offsetLeft,
-      y: el.offsetTop,
-      w: el.offsetWidth,
-      h: el.offsetHeight,
-    };
+    return { x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight };
   }
 
   function anchor(id, side) {
@@ -196,14 +176,14 @@
     switch (side) {
       case 'top':    return { x: r.x + r.w / 2, y: r.y };
       case 'bottom': return { x: r.x + r.w / 2, y: r.y + r.h };
-      case 'left':   return { x: r.x, y: r.y + r.h / 2 };
-      case 'right':  return { x: r.x + r.w, y: r.y + r.h / 2 };
+      case 'left':   return { x: r.x,           y: r.y + r.h / 2 };
+      case 'right':  return { x: r.x + r.w,     y: r.y + r.h / 2 };
       default:       return { x: r.x + r.w / 2, y: r.y + r.h / 2 };
     }
   }
 
   // ═══════════════════════════════════════════
-  // SVG HELPERS
+  // SVG + ORTHOGONAL PATHS
   // ═══════════════════════════════════════════
 
   function svgEl(tag, attrs) {
@@ -212,51 +192,50 @@
     return el;
   }
 
-  // Build an orthogonal (right-angle) SVG path between two anchors.
+  /**
+   * Build an orthogonal (right-angle) path between two anchors.
+   * Bends are placed so that each segment is clearly visible,
+   * with at least MIN_LEG pixels on every vertical/horizontal leg.
+   */
   function orthoPath(a, fromSide, b, toSide) {
-    let points = [a];
+    const MIN_LEG = 18;
+    let pts = [a];
 
     if (fromSide === 'right' && toSide === 'left') {
-      const mx = Math.round((a.x + b.x) / 2);
-      points.push({ x: mx, y: a.y });
-      points.push({ x: mx, y: b.y });
+      const mx = Math.round(a.x + Math.max((b.x - a.x) / 2, MIN_LEG));
+      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
+
     } else if (fromSide === 'left' && toSide === 'right') {
-      const mx = Math.round((a.x + b.x) / 2);
-      points.push({ x: mx, y: a.y });
-      points.push({ x: mx, y: b.y });
+      const mx = Math.round(b.x + Math.max((a.x - b.x) / 2, MIN_LEG));
+      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
+
     } else if (fromSide === 'top' && toSide === 'bottom') {
-      const my = Math.round((a.y + b.y) / 2);
-      points.push({ x: a.x, y: my });
-      points.push({ x: b.x, y: my });
+      // Go up from source, horizontal to target column, then down into target
+      const bendY = Math.min(a.y, b.y) - MIN_LEG;
+      pts.push({ x: a.x, y: bendY }, { x: b.x, y: bendY });
+
     } else if (fromSide === 'bottom' && toSide === 'top') {
-      const my = Math.round((a.y + b.y) / 2);
-      points.push({ x: a.x, y: my });
-      points.push({ x: b.x, y: my });
+      const bendY = Math.max(a.y, b.y) + MIN_LEG;
+      pts.push({ x: a.x, y: bendY }, { x: b.x, y: bendY });
+
     } else if (fromSide === 'right' && toSide === 'top') {
-      points.push({ x: b.x, y: a.y });
-    } else if (fromSide === 'right' && toSide === 'bottom') {
-      points.push({ x: b.x, y: a.y });
+      pts.push({ x: b.x, y: a.y });
+
     } else if (fromSide === 'bottom' && toSide === 'left') {
-      points.push({ x: a.x, y: b.y });
-    } else if (fromSide === 'top' && toSide === 'left') {
-      points.push({ x: a.x, y: b.y });
+      pts.push({ x: a.x, y: b.y });
+
     } else {
+      // Generic fallback — midpoint bend
       const mx = Math.round((a.x + b.x) / 2);
-      points.push({ x: mx, y: a.y });
-      points.push({ x: mx, y: b.y });
+      pts.push({ x: mx, y: a.y }, { x: mx, y: b.y });
     }
 
-    points.push(b);
-
-    let d = `M${points[0].x},${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      d += ` L${points[i].x},${points[i].y}`;
-    }
-    return d;
+    pts.push(b);
+    return 'M' + pts.map(p => `${p.x},${p.y}`).join(' L');
   }
 
   // ═══════════════════════════════════════════
-  // DRAW CONNECTIONS
+  // DRAW
   // ═══════════════════════════════════════════
 
   function drawAllConnections() {
@@ -268,55 +247,48 @@
     svg.setAttribute('viewBox', `0 0 ${CANVAS_W} ${CANVAS_H}`);
 
     connections.forEach(c => {
-      if (c.type === 'tree') drawTree(c);
+      if      (c.type === 'tree')   drawTree(c);
       else if (c.type === 'biline') drawBiLine(c);
-      else if (c.type === 'vline') drawVLine(c);
-      else drawArrow(c);
+      else if (c.type === 'vline')  drawVLine(c);
+      else                          drawArrow(c);
     });
   }
 
   function drawArrow(c) {
     const a = anchor(c.from, c.fromSide);
-    const b = anchor(c.to, c.toSide);
-    const d = orthoPath(a, c.fromSide, b, c.toSide);
+    const b = anchor(c.to,   c.toSide);
     svg.appendChild(svgEl('path', {
-      d: d,
+      d: orthoPath(a, c.fromSide, b, c.toSide),
       class: 'connection-path',
       'marker-end': 'url(#arrowhead)',
       'data-from': c.from,
-      'data-to': c.to,
+      'data-to':   c.to,
     }));
   }
 
   function drawTree(c) {
-    const fromPt = anchor(c.from, c.fromSide);
-    const targets = c.to.map(id => anchor(id, c.toSide));
+    const from = anchor(c.from, c.fromSide);
+    const tgts = c.to.map(id => anchor(id, c.toSide));
+    const jx   = Math.round((from.x + tgts[0].x) / 2);
+    const minY = Math.min(...tgts.map(t => t.y));
+    const maxY = Math.max(...tgts.map(t => t.y));
 
-    const jx = Math.round((fromPt.x + targets[0].x) / 2);
-
-    // Trunk: horizontal from → junction
+    // Trunk (horizontal)
     svg.appendChild(svgEl('line', {
-      x1: fromPt.x, y1: fromPt.y,
-      x2: jx, y2: fromPt.y,
+      x1: from.x, y1: from.y, x2: jx, y2: from.y,
       class: 'connection-path',
       'data-from': c.from, 'data-to': c.to[0],
     }));
-
-    // Vertical connector
-    const minY = Math.min(...targets.map(t => t.y));
-    const maxY = Math.max(...targets.map(t => t.y));
+    // Vertical bar
     svg.appendChild(svgEl('line', {
-      x1: jx, y1: minY,
-      x2: jx, y2: maxY,
+      x1: jx, y1: minY, x2: jx, y2: maxY,
       class: 'connection-path',
       'data-from': c.from, 'data-to': c.to[0],
     }));
-
-    // Branches: horizontal to each target
-    targets.forEach((t, i) => {
+    // Branches (horizontal + arrow)
+    tgts.forEach((t, i) => {
       svg.appendChild(svgEl('line', {
-        x1: jx, y1: t.y,
-        x2: t.x, y2: t.y,
+        x1: jx, y1: t.y, x2: t.x, y2: t.y,
         class: 'connection-path',
         'marker-end': 'url(#arrowhead)',
         'data-from': c.from, 'data-to': c.to[i],
@@ -326,27 +298,18 @@
 
   function drawBiLine(c) {
     const pt = anchor(c.from, c.fromSide);
-    let endX = pt.x, endY = pt.y;
-
-    if (c.fromSide === 'left') endX = pt.x - Math.abs(c.length);
-    else if (c.fromSide === 'right') endX = pt.x + Math.abs(c.length);
-    else if (c.fromSide === 'top') endY = pt.y - Math.abs(c.length);
-    else if (c.fromSide === 'bottom') endY = pt.y + Math.abs(c.length);
+    let ex = pt.x, ey = pt.y;
+    if      (c.fromSide === 'left')   ex = pt.x - Math.abs(c.length);
+    else if (c.fromSide === 'right')  ex = pt.x + Math.abs(c.length);
+    else if (c.fromSide === 'top')    ey = pt.y - Math.abs(c.length);
+    else if (c.fromSide === 'bottom') ey = pt.y + Math.abs(c.length);
 
     const attrs = {
-      x1: endX, y1: endY,
-      x2: pt.x, y2: pt.y,
+      x1: ex, y1: ey, x2: pt.x, y2: pt.y,
       class: 'connection-path',
-      'data-from': c.from || c.id,
-      'data-to': c.id || c.from,
+      'data-from': c.from || c.id, 'data-to': c.id || c.from,
     };
-
-    if (c.fromSide === 'left') {
-      attrs['marker-start'] = 'url(#arrowhead)';
-    } else {
-      attrs['marker-end'] = 'url(#arrowhead)';
-    }
-
+    attrs[c.fromSide === 'left' ? 'marker-start' : 'marker-end'] = 'url(#arrowhead)';
     svg.appendChild(svgEl('line', attrs));
   }
 
@@ -354,248 +317,155 @@
     const r = getRect(c.node);
     if (!r) return;
     const cx = r.x + r.w / 2;
-    const topY = r.y - 15;
-    const botY = r.y + r.h + c.length;
-
-    // Top arrow (pointing up)
+    // Arrow up
     svg.appendChild(svgEl('line', {
-      x1: cx, y1: r.y - 2,
-      x2: cx, y2: topY,
-      class: 'connection-path',
-      'marker-end': 'url(#arrowhead)',
+      x1: cx, y1: r.y - 2, x2: cx, y2: r.y - 18,
+      class: 'connection-path', 'marker-end': 'url(#arrowhead)',
       'data-from': c.node, 'data-to': c.node,
     }));
-
-    // Bottom arrow (pointing down)
+    // Arrow down
     svg.appendChild(svgEl('line', {
-      x1: cx, y1: r.y + r.h + 2,
-      x2: cx, y2: botY,
-      class: 'connection-path',
-      'marker-end': 'url(#arrowhead)',
+      x1: cx, y1: r.y + r.h + 2, x2: cx, y2: r.y + r.h + c.length,
+      class: 'connection-path', 'marker-end': 'url(#arrowhead)',
       'data-from': c.node, 'data-to': c.node,
     }));
   }
 
   // ═══════════════════════════════════════════
-  // TRANSFORM
+  // PAN / ZOOM
   // ═══════════════════════════════════════════
 
   function updateTransform() {
-    canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    canvas.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
   }
 
   function fitToView() {
-    const vw = viewport.clientWidth;
-    const vh = viewport.clientHeight;
-    const headerH = 60;
-    const effectiveH = vh - headerH;
-
-    const sx = vw / CANVAS_W;
-    const sy = effectiveH / CANVAS_H;
-    scale = Math.min(sx, sy) * 0.92;
-
+    const vw = viewport.clientWidth, vh = viewport.clientHeight;
+    const hdr = 60, eh = vh - hdr;
+    scale = Math.min(vw / CANVAS_W, eh / CANVAS_H) * 0.92;
     tx = (vw - CANVAS_W * scale) / 2;
-    ty = headerH + (effectiveH - CANVAS_H * scale) / 2;
+    ty = hdr + (eh - CANVAS_H * scale) / 2;
     updateTransform();
   }
 
-  // ═══════════════════════════════════════════
-  // PAN & ZOOM
-  // ═══════════════════════════════════════════
+  function zoomAt(cx, cy, d) {
+    const prev = scale;
+    scale = Math.max(0.2, Math.min(3, scale + d));
+    const r = scale / prev;
+    tx = cx - (cx - tx) * r;
+    ty = cy - (cy - ty) * r;
+    updateTransform();
+  }
 
   function setupPanZoom() {
-    let dragging = false;
-    let startX, startY;
+    let drag = false, sx, sy;
 
     viewport.addEventListener('pointerdown', e => {
-      if (e.target.closest('.node') || e.target.closest('button')) return;
-      dragging = true;
-      startX = e.clientX - tx;
-      startY = e.clientY - ty;
+      if (e.target.closest('.node, button')) return;
+      drag = true; sx = e.clientX - tx; sy = e.clientY - ty;
       viewport.classList.add('dragging');
       viewport.setPointerCapture(e.pointerId);
     });
-
     viewport.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      tx = e.clientX - startX;
-      ty = e.clientY - startY;
+      if (!drag) return;
+      tx = e.clientX - sx; ty = e.clientY - sy;
       updateTransform();
     });
-
-    viewport.addEventListener('pointerup', () => {
-      dragging = false;
-      viewport.classList.remove('dragging');
-    });
-
-    viewport.addEventListener('pointercancel', () => {
-      dragging = false;
-      viewport.classList.remove('dragging');
-    });
+    const endDrag = () => { drag = false; viewport.classList.remove('dragging'); };
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
 
     viewport.addEventListener('wheel', e => {
       e.preventDefault();
-      const delta = e.deltaY > 0 ? -0.08 : 0.08;
-      zoomAt(e.clientX, e.clientY, delta);
+      zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? -0.08 : 0.08);
     }, { passive: false });
 
-    let lastPinchDist = 0;
-
+    let lastDist = 0;
     viewport.addEventListener('touchstart', e => {
-      if (e.touches.length === 2) {
-        lastPinchDist = pinchDist(e.touches);
-      }
+      if (e.touches.length === 2) lastDist = pDist(e.touches);
     }, { passive: true });
-
     viewport.addEventListener('touchmove', e => {
       if (e.touches.length === 2) {
-        const dist = pinchDist(e.touches);
-        const delta = (dist - lastPinchDist) * 0.003;
-        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        zoomAt(cx, cy, delta);
-        lastPinchDist = dist;
+        const d = pDist(e.touches);
+        zoomAt(
+          (e.touches[0].clientX + e.touches[1].clientX) / 2,
+          (e.touches[0].clientY + e.touches[1].clientY) / 2,
+          (d - lastDist) * 0.003
+        );
+        lastDist = d;
       }
     }, { passive: true });
-
-    function pinchDist(touches) {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
+    function pDist(t) {
+      const dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
       return Math.sqrt(dx * dx + dy * dy);
     }
   }
 
-  function zoomAt(cx, cy, delta) {
-    const prev = scale;
-    scale = Math.max(0.25, Math.min(3, scale + delta));
-    const ratio = scale / prev;
-    tx = cx - (cx - tx) * ratio;
-    ty = cy - (cy - ty) * ratio;
-    updateTransform();
-  }
-
   // ═══════════════════════════════════════════
-  // CONTROLS
+  // CONTROLS + THEME + HIGHLIGHTS
   // ═══════════════════════════════════════════
 
   function setupControls() {
-    document.getElementById('zoom-in').addEventListener('click', () => {
-      zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, 0.15);
-    });
-    document.getElementById('zoom-out').addEventListener('click', () => {
-      zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, -0.15);
-    });
-    document.getElementById('fit-view').addEventListener('click', fitToView);
-
+    const ctr = (id, fn) => document.getElementById(id).addEventListener('click', fn);
+    ctr('zoom-in',  () => zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, 0.15));
+    ctr('zoom-out', () => zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, -0.15));
+    ctr('fit-view', fitToView);
     window.addEventListener('resize', fitToView);
-
     document.addEventListener('keydown', e => {
-      if (e.key === '+' || e.key === '=') {
-        e.preventDefault();
-        zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, 0.1);
-      } else if (e.key === '-') {
-        e.preventDefault();
-        zoomAt(viewport.clientWidth / 2, viewport.clientHeight / 2, -0.1);
-      } else if (e.key === '0') {
-        e.preventDefault();
-        fitToView();
-      }
+      if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomAt(viewport.clientWidth/2, viewport.clientHeight/2, 0.1); }
+      else if (e.key === '-')             { e.preventDefault(); zoomAt(viewport.clientWidth/2, viewport.clientHeight/2, -0.1); }
+      else if (e.key === '0')             { e.preventDefault(); fitToView(); }
     });
   }
 
-  // ═══════════════════════════════════════════
-  // THEME TOGGLE
-  // ═══════════════════════════════════════════
-
   function setupThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
-
     const stored = localStorage.getItem('fpr-theme');
     if (stored) html.setAttribute('data-theme', stored);
-
-    if (!stored && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      html.setAttribute('data-theme', 'light');
-    }
-
-    toggle.addEventListener('click', () => {
-      const current = html.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
+    else if (window.matchMedia('(prefers-color-scheme: light)').matches) html.setAttribute('data-theme', 'light');
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('fpr-theme', next);
     });
   }
 
-  // ═══════════════════════════════════════════
-  // HIGHLIGHT SYSTEM
-  // ═══════════════════════════════════════════
-
   function setupHighlights() {
-    const allNodes = document.querySelectorAll('.node');
     let activeId = null;
-
-    allNodes.forEach(node => {
+    document.querySelectorAll('.node').forEach(node => {
       const nid = node.dataset.id;
       if (!nid) return;
-
       node.addEventListener('mouseenter', () => highlight(nid));
       node.addEventListener('mouseleave', () => clearHighlight());
-
       node.addEventListener('click', e => {
         e.stopPropagation();
-        if (activeId === nid) {
-          clearHighlight();
-          activeId = null;
-        } else {
-          highlight(nid);
-          activeId = nid;
-        }
+        if (activeId === nid) { clearHighlight(); activeId = null; }
+        else { highlight(nid); activeId = nid; }
       });
     });
-
-    viewport.addEventListener('click', e => {
-      if (!e.target.closest('.node')) {
-        clearHighlight();
-        activeId = null;
-      }
-    });
+    viewport.addEventListener('click', e => { if (!e.target.closest('.node')) { clearHighlight(); activeId = null; } });
   }
 
-  function highlight(nodeId) {
-    const connected = new Set([nodeId]);
-    if (adjacency[nodeId]) {
-      adjacency[nodeId].forEach(n => connected.add(n));
-    }
-
+  function highlight(id) {
+    const set = new Set([id]);
+    if (adjacency[id]) adjacency[id].forEach(n => set.add(n));
     document.querySelectorAll('.node').forEach(el => {
-      const nid = el.dataset.id;
-      if (!nid) return;
-      el.classList.toggle('highlighted', connected.has(nid));
-      el.classList.toggle('dimmed', !connected.has(nid));
+      const n = el.dataset.id; if (!n) return;
+      el.classList.toggle('highlighted', set.has(n));
+      el.classList.toggle('dimmed', !set.has(n));
     });
-
-    document.querySelectorAll('.connection-path').forEach(path => {
-      const f = path.getAttribute('data-from');
-      const t = path.getAttribute('data-to');
-      const isConn = connected.has(f) && connected.has(t);
-      path.classList.toggle('highlighted', isConn);
-      path.classList.toggle('dimmed', !isConn);
+    document.querySelectorAll('.connection-path').forEach(p => {
+      const ok = set.has(p.getAttribute('data-from')) && set.has(p.getAttribute('data-to'));
+      p.classList.toggle('highlighted', ok);
+      p.classList.toggle('dimmed', !ok);
     });
   }
 
   function clearHighlight() {
-    document.querySelectorAll('.highlighted, .dimmed').forEach(el => {
-      el.classList.remove('highlighted', 'dimmed');
-    });
+    document.querySelectorAll('.highlighted,.dimmed').forEach(el => el.classList.remove('highlighted','dimmed'));
   }
 
   // ═══════════════════════════════════════════
-  // START
-  // ═══════════════════════════════════════════
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
