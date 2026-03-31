@@ -76,15 +76,19 @@
     { type: 'tree', from: 'experience', fromSide: 'right',
       to: ['exploration', 'adventure', 'discovery'], toSide: 'left' },
 
-    // Exploration ↑ Serendipity
-    { from: 'exploration', fromSide: 'top', to: 'serendipity', toSide: 'bottom' },
+    // Serendipity → Exploration / Adventure / Discovery (arrows point at the tags)
+    { from: 'serendipity', fromSide: 'left', to: 'exploration', toSide: 'right' },
+    { from: 'serendipity', fromSide: 'left', to: 'adventure',   toSide: 'right' },
+    { from: 'serendipity', fromSide: 'left', to: 'discovery',   toSide: 'right' },
+
+    // Surrealism → Exploration / Adventure / Discovery (arrows point at the tags)
+    { from: 'surrealism', fromSide: 'left', to: 'exploration', toSide: 'right' },
+    { from: 'surrealism', fromSide: 'left', to: 'adventure',   toSide: 'right' },
+    { from: 'surrealism', fromSide: 'left', to: 'discovery',   toSide: 'right' },
 
     // Serendipity → Luck / Knowledge
     { from: 'serendipity', fromSide: 'right', to: 'luck', toSide: 'left' },
     { from: 'serendipity', fromSide: 'right', to: 'knowledge', toSide: 'left' },
-
-    // Discovery → Surrealism
-    { from: 'discovery', fromSide: 'right', to: 'surrealism', toSide: 'left' },
 
     // Surrealism → Dream
     { from: 'surrealism', fromSide: 'right', to: 'dream', toSide: 'left' },
