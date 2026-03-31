@@ -6,71 +6,68 @@
 (function () {
   'use strict';
 
-  const CANVAS_W = 1800;
-  const CANVAS_H = 1050;
+  const CANVAS_W = 1900;
+  const CANVAS_H = 1100;
 
   // ─── NODE POSITIONS ───
-  // Each zone uses consistent widths. Generous vertical gaps prevent overlap
-  // even when cards have long wrapped text.
+  // Uniform widths: concepts=250, tags=135, labels=auto
   const layout = {
 
     // ═══ TOP ROW ═══
-    experience:        { x: 20,   y: 130,  w: 250 },
+    experience:        { x: 20,   y: 120,  w: 250 },
 
-    // Tags (between Experience and Serendipity/Surrealism)
-    exploration:       { x: 310,  y: 108,  w: 140 },
-    adventure:         { x: 310,  y: 150,  w: 140 },
-    discovery:         { x: 310,  y: 192,  w: 140 },
+    // Tags
+    exploration:       { x: 310,  y: 95,   w: 135 },
+    adventure:         { x: 310,  y: 140,  w: 135 },
+    discovery:         { x: 310,  y: 185,  w: 135 },
 
     // Center-top concepts
-    serendipity:       { x: 500,  y: 20,   w: 250 },
-    surrealism:        { x: 500,  y: 200,  w: 250 },
+    serendipity:       { x: 490,  y: 20,   w: 250 },
+    surrealism:        { x: 490,  y: 190,  w: 250 },
 
-    // Small tags right of serendipity / surrealism
-    luck:              { x: 790,  y: 30,   w: 105 },
-    knowledge:         { x: 790,  y: 70,   w: 105 },
-    dream:             { x: 790,  y: 210,  w: 105 },
+    // Tags
+    luck:              { x: 780,  y: 30,   w: 135 },
+    knowledge:         { x: 780,  y: 75,   w: 135 },
+    dream:             { x: 780,  y: 200,  w: 135 },
 
-    // Far-right top
-    proactive:         { x: 1050, y: 20,   w: 250 },
-    paradigm:          { x: 1050, y: 170,  w: 250 },
+    // Right-top concepts
+    proactive:         { x: 960,  y: 20,   w: 250 },
+    paradigm:          { x: 960,  y: 190,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
-    background:        { x: 20,   y: 320,  w: 250 },
-    metaphorical:      { x: 20,   y: 470,  w: 250 },
+    background:        { x: 20,   y: 340,  w: 250 },
+    metaphorical:      { x: 20,   y: 510,  w: 250 },
 
-    modularity:        { x: 310,  y: 320,  w: 250 },
-    supply:            { x: 310,  y: 470,  w: 250 },
+    modularity:        { x: 310,  y: 340,  w: 250 },
+    supply:            { x: 310,  y: 510,  w: 250 },
 
-    patterns:          { x: 600,  y: 360,  w: 250 },
-    anemoia:           { x: 890,  y: 340,  w: 250 },
+    patterns:          { x: 600,  y: 380,  w: 250 },
+    anemoia:           { x: 890,  y: 370,  w: 250 },
 
-    // Far-right column
-    statusquo:         { x: 1340, y: 320,  w: 250 },
-    intersubjectivity: { x: 1340, y: 440,  w: 250 },
-    entropy:           { x: 1340, y: 560,  w: 250 },
-    decay:             { x: 1340, y: 680,  w: 250 },
+    // ═══ FAR-RIGHT COLUMN ═══
+    statusquo:         { x: 1350, y: 340,  w: 250 },
+    intersubjectivity: { x: 1350, y: 490,  w: 250 },
+    entropy:           { x: 1350, y: 640,  w: 250 },
+    decay:             { x: 1350, y: 790,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 600,  y: 520 },
+    connections:       { x: 600,  y: 540 },
 
     // ═══ BOTTOM ROW ═══
-    systems:           { x: 310,  y: 610,  w: 250 },
-    cause:             { x: 310,  y: 770,  w: 250 },
+    tension:           { x: 20,   y: 660 },
+    systems:           { x: 310,  y: 650,  w: 250 },
+    liminality:        { x: 600,  y: 650,  w: 250 },
+    longmoment:        { x: 880,  y: 655,  w: 135 },
+    error:             { x: 1060, y: 640,  w: 250 },
 
-    liminality:        { x: 600,  y: 610,  w: 250 },
-    threshold:         { x: 600,  y: 770,  w: 250 },
+    balance:           { x: 20,   y: 830 },
+    cause:             { x: 310,  y: 820,  w: 250 },
+    threshold:         { x: 600,  y: 820,  w: 250 },
+    shortmoment:       { x: 880,  y: 825,  w: 135 },
+    glitch:            { x: 1060, y: 810,  w: 250 },
 
-    longmoment:        { x: 880,  y: 600,  w: 145 },
-    shortmoment:       { x: 880,  y: 750,  w: 145 },
-
-    error:             { x: 1060, y: 590,  w: 250 },
-    glitch:            { x: 1060, y: 750,  w: 250 },
-
-    // ═══ LABELS ═══
-    tension:           { x: 20,   y: 620 },
-    balance:           { x: 20,   y: 738 },
-    perspectives:      { x: 1610, y: 360 },
+    // ═══ PERSPECTIVES LABEL ═══
+    perspectives:      { x: 1630, y: 540 },
   };
 
   // ─── CONNECTIONS ───
@@ -95,9 +92,9 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
-    // Connections ←→
-    { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 275 },
-    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 400 },
+    // Connections ←→ (horizontal lines spanning the connection zone)
+    { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 290 },
+    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 460 },
 
     // Liminality → A long moment → Error
     { from: 'liminality', fromSide: 'right', to: 'longmoment', toSide: 'left' },
@@ -107,12 +104,15 @@
     { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
     { from: 'shortmoment', fromSide: 'right', to: 'glitch', toSide: 'left' },
 
-    // Tension → / Balance →
-    { type: 'biline', id: 'tension-arrow', from: 'tension',  fromSide: 'right', length: 80 },
-    { type: 'biline', id: 'balance-arrow', from: 'balance',  fromSide: 'right', length: 80 },
+    // Tension → Systems
+    { from: 'tension', fromSide: 'right', to: 'systems', toSide: 'left' },
 
-    // Perspectives ↕
-    { type: 'vline', id: 'perspectives-line', node: 'perspectives', length: 175 },
+    // Balance → Cause
+    { from: 'balance', fromSide: 'right', to: 'cause', toSide: 'left' },
+
+    // Perspectives ↕ connected to Status Quo (up) and Decay (down)
+    { from: 'perspectives', fromSide: 'top', to: 'statusquo', toSide: 'right' },
+    { from: 'perspectives', fromSide: 'bottom', to: 'decay', toSide: 'right' },
   ];
 
   // ─── ADJACENCY ───

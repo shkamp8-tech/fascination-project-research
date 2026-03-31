@@ -171,8 +171,8 @@ header {
 
 #canvas {
   position: absolute;
-  width: 1800px;
-  height: 1050px;
+  width: 1900px;
+  height: 1100px;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -204,8 +204,8 @@ header {
   position: absolute;
   left: 10px;
   top: 10px;
-  width: 1150px;
-  height: 870px;
+  width: 1300px;
+  height: 930px;
   border: 1px solid var(--boundary-border);
   border-radius: 14px;
   pointer-events: none;
@@ -359,6 +359,11 @@ header {
 }
 
 .node.highlighted.tag {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+.node.highlighted.label {
   border-color: var(--accent) !important;
   color: var(--accent) !important;
 }
