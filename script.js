@@ -329,47 +329,86 @@
   }
 
   function setupPanZoom() {
-    let drag = false, sx, sy;
+    // ── Unified pointer tracking ──
+    const pointers = new Map();   // pointerId → {x, y}
+    let prevMid = null, prevDist = 0;
 
     viewport.addEventListener('pointerdown', e => {
-      if (e.target.closest('.node, button')) return;
-      drag = true; sx = e.clientX - tx; sy = e.clientY - ty;
-      viewport.classList.add('dragging');
+      if (e.target.closest('button')) return;
+      // Allow dragging from nodes too (1-finger nav)
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add('dragging');
+      if (pointers.size === 1) {
+        prevMid = { x: e.clientX, y: e.clientY };
+      }
+      if (pointers.size === 2) {
+        const pts = [...pointers.values()];
+        prevMid  = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+        prevDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      }
     });
-    viewport.addEventListener('pointermove', e => {
-      if (!drag) return;
-      tx = e.clientX - sx; ty = e.clientY - sy;
-      updateTransform();
-    });
-    const endDrag = () => { drag = false; viewport.classList.remove('dragging'); };
-    viewport.addEventListener('pointerup', endDrag);
-    viewport.addEventListener('pointercancel', endDrag);
 
+    viewport.addEventListener('pointermove', e => {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointers.size === 1) {
+        // Single finger/mouse → pan
+        const pt = pointers.values().next().value;
+        const dx = pt.x - prevMid.x;
+        const dy = pt.y - prevMid.y;
+        tx += dx;
+        ty += dy;
+        prevMid = { x: pt.x, y: pt.y };
+        updateTransform();
+
+      } else if (pointers.size === 2) {
+        // Two fingers → pinch zoom + pan
+        const pts = [...pointers.values()];
+        const mid  = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+        const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+
+        // Pan from midpoint movement
+        tx += mid.x - prevMid.x;
+        ty += mid.y - prevMid.y;
+
+        // Zoom from pinch
+        if (prevDist > 0) {
+          const newScale = Math.max(0.2, Math.min(3, scale * (dist / prevDist)));
+          const r = newScale / scale;
+          tx = mid.x - (mid.x - tx) * r;
+          ty = mid.y - (mid.y - ty) * r;
+          scale = newScale;
+        }
+
+        prevMid  = mid;
+        prevDist = dist;
+        updateTransform();
+      }
+    });
+
+    function endPointer(e) {
+      pointers.delete(e.pointerId);
+      if (pointers.size === 0) {
+        viewport.classList.remove('dragging');
+        prevMid = null;
+        prevDist = 0;
+      } else if (pointers.size === 1) {
+        // Seamlessly continue with remaining finger
+        const pt = pointers.values().next().value;
+        prevMid = { x: pt.x, y: pt.y };
+        prevDist = 0;
+      }
+    }
+    viewport.addEventListener('pointerup', endPointer);
+    viewport.addEventListener('pointercancel', endPointer);
+
+    // ── Mouse wheel zoom ──
     viewport.addEventListener('wheel', e => {
       e.preventDefault();
       zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? -0.08 : 0.08);
     }, { passive: false });
-
-    let lastDist = 0;
-    viewport.addEventListener('touchstart', e => {
-      if (e.touches.length === 2) lastDist = pDist(e.touches);
-    }, { passive: true });
-    viewport.addEventListener('touchmove', e => {
-      if (e.touches.length === 2) {
-        const d = pDist(e.touches);
-        zoomAt(
-          (e.touches[0].clientX + e.touches[1].clientX) / 2,
-          (e.touches[0].clientY + e.touches[1].clientY) / 2,
-          (d - lastDist) * 0.003
-        );
-        lastDist = d;
-      }
-    }, { passive: true });
-    function pDist(t) {
-      const dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
   }
 
   // ═══════════════════════════════════════════
