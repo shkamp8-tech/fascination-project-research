@@ -96,6 +96,14 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
+    // Background Relations → Metaphorical
+    { from: 'background', fromSide: 'bottom', to: 'metaphorical', toSide: 'top' },
+
+    // Modularity → Supply and demand → Systems → Cause and effect
+    { from: 'modularity', fromSide: 'bottom', to: 'supply', toSide: 'top' },
+    { from: 'supply', fromSide: 'bottom', to: 'systems', toSide: 'top' },
+    { from: 'systems', fromSide: 'bottom', to: 'cause', toSide: 'top' },
+
     // Connections ←→ (horizontal lines spanning the connection zone)
     { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 290 },
     { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 460 },
