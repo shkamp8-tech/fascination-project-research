@@ -131,11 +131,15 @@
     { from: 'glitch', fromSide: 'left', to: 'shortmoment', toSide: 'right' },
     { from: 'shortmoment', fromSide: 'left', to: 'threshold', toSide: 'right' },
 
-    // Tension → Systems
-    { from: 'tension', fromSide: 'right', to: 'systems', toSide: 'left' },
+    // Tension — Supply and demand (no arrow)
+    { from: 'tension', fromSide: 'right', to: 'supply', toSide: 'left', noArrow: true },
+    // Tension — Cause and effect (no arrow)
+    { from: 'tension', fromSide: 'right', to: 'cause', toSide: 'left', noArrow: true },
 
-    // Balance → Cause
-    { from: 'balance', fromSide: 'right', to: 'cause', toSide: 'left' },
+    // Balance — Supply and demand (no arrow)
+    { from: 'balance', fromSide: 'right', to: 'supply', toSide: 'left', noArrow: true },
+    // Balance — Cause and effect (no arrow)
+    { from: 'balance', fromSide: 'right', to: 'cause', toSide: 'left', noArrow: true },
 
     // Perspectives ↕ connected to Status Quo (up) and Decay (down)
     { from: 'perspectives', fromSide: 'top', to: 'statusquo', toSide: 'right' },
