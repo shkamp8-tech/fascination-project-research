@@ -86,15 +86,21 @@
     { from: 'surrealism', fromSide: 'left', to: 'adventure',   toSide: 'right' },
     { from: 'surrealism', fromSide: 'left', to: 'discovery',   toSide: 'right' },
 
-    // Serendipity → Luck / Knowledge
-    { from: 'serendipity', fromSide: 'right', to: 'luck', toSide: 'left' },
-    { from: 'serendipity', fromSide: 'right', to: 'knowledge', toSide: 'left' },
+    // Luck / Knowledge → Serendipity (arrows point at Serendipity)
+    { from: 'luck', fromSide: 'left', to: 'serendipity', toSide: 'right' },
+    { from: 'knowledge', fromSide: 'left', to: 'serendipity', toSide: 'right' },
 
-    // Surrealism → Dream
-    { from: 'surrealism', fromSide: 'right', to: 'dream', toSide: 'left' },
+    // Dream → Surrealism (arrow points at Surrealism)
+    { from: 'dream', fromSide: 'left', to: 'surrealism', toSide: 'right' },
 
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
+
+    // Paradigm — Status Quo (no arrow)
+    { from: 'paradigm', fromSide: 'bottom', to: 'statusquo', toSide: 'top', noArrow: true },
+
+    // Surrealism — Anemoia (no arrow)
+    { from: 'surrealism', fromSide: 'bottom', to: 'anemoia', toSide: 'top', noArrow: true },
 
     // Background Relations — Metaphorical (no arrow)
     { from: 'background', fromSide: 'bottom', to: 'metaphorical', toSide: 'top', noArrow: true },
@@ -117,13 +123,13 @@
     { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 290 },
     { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 460 },
 
-    // Liminality → A long moment → Error
-    { from: 'liminality', fromSide: 'right', to: 'longmoment', toSide: 'left' },
-    { from: 'longmoment', fromSide: 'right', to: 'error', toSide: 'left' },
+    // Error → A long moment (arrow points at longmoment)
+    { from: 'error', fromSide: 'left', to: 'longmoment', toSide: 'right' },
+    { from: 'longmoment', fromSide: 'left', to: 'liminality', toSide: 'right' },
 
-    // Threshold → A short moment → Glitch
-    { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
-    { from: 'shortmoment', fromSide: 'right', to: 'glitch', toSide: 'left' },
+    // Glitch → A short moment (arrow points at shortmoment)
+    { from: 'glitch', fromSide: 'left', to: 'shortmoment', toSide: 'right' },
+    { from: 'shortmoment', fromSide: 'left', to: 'threshold', toSide: 'right' },
 
     // Tension → Systems
     { from: 'tension', fromSide: 'right', to: 'systems', toSide: 'left' },
