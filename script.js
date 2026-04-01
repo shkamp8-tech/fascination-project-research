@@ -96,13 +96,22 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
-    // Background Relations → Metaphorical
-    { from: 'background', fromSide: 'bottom', to: 'metaphorical', toSide: 'top' },
+    // Background Relations — Metaphorical (no arrow)
+    { from: 'background', fromSide: 'bottom', to: 'metaphorical', toSide: 'top', noArrow: true },
 
-    // Modularity → Supply and demand → Systems → Cause and effect
-    { from: 'modularity', fromSide: 'bottom', to: 'supply', toSide: 'top' },
-    { from: 'supply', fromSide: 'bottom', to: 'systems', toSide: 'top' },
-    { from: 'systems', fromSide: 'bottom', to: 'cause', toSide: 'top' },
+    // Modularity — Supply — Systems — Cause (no arrows)
+    { from: 'modularity', fromSide: 'bottom', to: 'supply', toSide: 'top', noArrow: true },
+    { from: 'supply', fromSide: 'bottom', to: 'systems', toSide: 'top', noArrow: true },
+    { from: 'systems', fromSide: 'bottom', to: 'cause', toSide: 'top', noArrow: true },
+
+    // Liminality — Threshold (no arrow)
+    { from: 'liminality', fromSide: 'bottom', to: 'threshold', toSide: 'top', noArrow: true },
+
+    // Error — Glitch (no arrow)
+    { from: 'error', fromSide: 'bottom', to: 'glitch', toSide: 'top', noArrow: true },
+
+    // Entropy — Decay (no arrow)
+    { from: 'entropy', fromSide: 'bottom', to: 'decay', toSide: 'top', noArrow: true },
 
     // Connections ←→ (horizontal lines spanning the connection zone)
     { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 290 },
@@ -251,13 +260,14 @@
   function drawArrow(c) {
     const a = anchor(c.from, c.fromSide);
     const b = anchor(c.to,   c.toSide);
-    svg.appendChild(svgEl('path', {
+    const attrs = {
       d: curvePath(a, c.fromSide, b, c.toSide),
       class: 'connection-path',
-      'marker-end': 'url(#arrowhead)',
       'data-from': c.from,
       'data-to':   c.to,
-    }));
+    };
+    if (!c.noArrow) attrs['marker-end'] = 'url(#arrowhead)';
+    svg.appendChild(svgEl('path', attrs));
   }
 
   function drawTree(c) {
