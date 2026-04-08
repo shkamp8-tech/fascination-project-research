@@ -35,14 +35,14 @@
     paradigm:          { x: 1500, y: 200,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
-    background:        { x: 30,   y: 360,  w: 250 },
-    metaphorical:      { x: 30,   y: 540,  w: 250 },
+    background:        { x: 30,   y: 320,  w: 250 },
+    metaphorical:      { x: 30,   y: 490,  w: 250 },
 
     modularity:        { x: 330,  y: 360,  w: 250 },
     supply:            { x: 330,  y: 540,  w: 250 },
 
-    anemoia:           { x: 520,  y: 400,  w: 250 },
-    patterns:          { x: 820,  y: 400,  w: 250 },
+    anemoia:           { x: 640,  y: 400,  w: 250 },
+    patterns:          { x: 940,  y: 400,  w: 250 },
 
     // ═══ FAR-RIGHT COLUMN ═══
     statusquo:         { x: 1500, y: 370,  w: 250 },
@@ -51,7 +51,7 @@
     decay:             { x: 1500, y: 880,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 640,  y: 580 },
+    connections:       { x: 740,  y: 580 },
 
     // ═══ BOTTOM ROW ═══
     tension:           { x: 30,   y: 720 },
