@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const CANVAS_W = 1900;
+  const CANVAS_W = 2000;
   const CANVAS_H = 1100;
 
   // ─── NODE POSITIONS ───
@@ -30,9 +30,9 @@
     knowledge:         { x: 780,  y: 75,   w: 135 },
     dream:             { x: 780,  y: 200,  w: 135 },
 
-    // Right-top concepts
-    proactive:         { x: 960,  y: 20,   w: 250 },
-    paradigm:          { x: 960,  y: 190,  w: 250 },
+    // Right-top concepts (aligned above statusquo column)
+    proactive:         { x: 1350, y: 20,   w: 250 },
+    paradigm:          { x: 1350, y: 190,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
     background:        { x: 20,   y: 340,  w: 250 },
@@ -67,7 +67,7 @@
     glitch:            { x: 1060, y: 810,  w: 250 },
 
     // ═══ PERSPECTIVES LABEL ═══
-    perspectives:      { x: 1630, y: 540 },
+    perspectives:      { x: 1720, y: 440 },
   };
 
   // ─── CONNECTIONS ───
@@ -92,12 +92,6 @@
 
     // Dream → Surrealism (arrow points at Surrealism)
     { from: 'dream', fromSide: 'left', to: 'surrealism', toSide: 'right' },
-
-    // Dream → Paradigm
-    { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
-
-    // Dream → Paradigm
-    { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
     // Paradigm — Status Quo (no arrow)
     { from: 'paradigm', fromSide: 'bottom', to: 'statusquo', toSide: 'top', noArrow: true },
@@ -126,6 +120,9 @@
     { from: 'modularity', fromSide: 'right', to: 'connections', toSide: 'left' },
     // Systems → Connections (arrow points at Connections)
     { from: 'systems', fromSide: 'right', to: 'connections', toSide: 'left' },
+
+    // Intersubjectivity → Connections (arrow points at Connections)
+    { from: 'intersubjectivity', fromSide: 'left', to: 'connections', toSide: 'right' },
 
     // Error → A long moment (arrow points at longmoment)
     { from: 'error', fromSide: 'left', to: 'longmoment', toSide: 'right' },
