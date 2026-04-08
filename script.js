@@ -63,7 +63,7 @@
     });
   }
 
-  const CANVAS_W = 2200;
+  const CANVAS_W = 2400;
   const CANVAS_H = 1200;
 
   // ─── NODE POSITIONS ───
@@ -71,60 +71,60 @@
   const layout = {
 
     // ═══ TOP ROW ═══
-    experience:        { x: 30,   y: 120,  w: 250 },
+    experience:        { x: 180,  y: 120,  w: 250 },
 
     // Tags (more space from experience, and from serendipity/surrealism)
-    exploration:       { x: 380,  y: 85,   w: 135 },
-    adventure:         { x: 380,  y: 135,  w: 135 },
-    discovery:         { x: 380,  y: 185,  w: 135 },
+    exploration:       { x: 530,  y: 85,   w: 135 },
+    adventure:         { x: 530,  y: 135,  w: 135 },
+    discovery:         { x: 530,  y: 185,  w: 135 },
 
-    // Center-top concepts (aligned: serendipity, surrealism, anemoia = x:600)
-    serendipity:       { x: 600,  y: 20,   w: 250 },
-    surrealism:        { x: 600,  y: 200,  w: 250 },
+    // Center-top concepts (aligned: serendipity, surrealism, anemoia = x:750)
+    serendipity:       { x: 750,  y: 20,   w: 250 },
+    surrealism:        { x: 750,  y: 200,  w: 250 },
 
     // Tags (more space from serendipity/surrealism)
-    luck:              { x: 920,  y: 30,   w: 135 },
-    knowledge:         { x: 920,  y: 80,   w: 135 },
-    dream:             { x: 920,  y: 210,  w: 135 },
+    luck:              { x: 1070, y: 30,   w: 135 },
+    knowledge:         { x: 1070, y: 80,   w: 135 },
+    dream:             { x: 1070, y: 210,  w: 135 },
 
     // Right-top concepts (aligned above statusquo column)
-    proactive:         { x: 1500, y: 30,   w: 250 },
-    paradigm:          { x: 1500, y: 200,  w: 250 },
+    proactive:         { x: 1650, y: 30,   w: 250 },
+    paradigm:          { x: 1650, y: 200,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
     background:        { x: 30,   y: 320,  w: 250 },
-    metaphorical:      { x: 30,   y: 490,  w: 250 },
+    metaphorical:      { x: 180,  y: 490,  w: 250 },
 
     modularity:        { x: 330,  y: 360,  w: 250 },
-    supply:            { x: 330,  y: 540,  w: 250 },
+    supply:            { x: 480,  y: 540,  w: 250 },
 
-    anemoia:           { x: 600,  y: 400,  w: 250 },
-    patterns:          { x: 920,  y: 400,  w: 250 },
+    anemoia:           { x: 750,  y: 400,  w: 250 },
+    patterns:          { x: 1070, y: 400,  w: 250 },
 
     // ═══ FAR-RIGHT COLUMN ═══
-    statusquo:         { x: 1500, y: 370,  w: 250 },
-    intersubjectivity: { x: 1500, y: 540,  w: 250 },
-    entropy:           { x: 1500, y: 710,  w: 250 },
-    decay:             { x: 1500, y: 880,  w: 250 },
+    statusquo:         { x: 1650, y: 370,  w: 250 },
+    intersubjectivity: { x: 1650, y: 540,  w: 250 },
+    entropy:           { x: 1650, y: 710,  w: 250 },
+    decay:             { x: 1650, y: 880,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 740,  y: 580 },
+    connections:       { x: 890,  y: 580 },
 
     // ═══ BOTTOM ROW ═══
-    tension:           { x: 30,   y: 720 },
-    systems:           { x: 330,  y: 710,  w: 250 },
-    liminality:        { x: 640,  y: 710,  w: 250 },
-    longmoment:        { x: 940,  y: 718,  w: 135 },
-    error:             { x: 1130, y: 700,  w: 250 },
+    tension:           { x: 180,  y: 720 },
+    systems:           { x: 480,  y: 710,  w: 250 },
+    liminality:        { x: 790,  y: 710,  w: 250 },
+    longmoment:        { x: 1090, y: 718,  w: 135 },
+    error:             { x: 1280, y: 700,  w: 250 },
 
-    balance:           { x: 30,   y: 900 },
-    cause:             { x: 330,  y: 890,  w: 250 },
-    threshold:         { x: 640,  y: 890,  w: 250 },
-    shortmoment:       { x: 940,  y: 898,  w: 135 },
-    glitch:            { x: 1130, y: 880,  w: 250 },
+    balance:           { x: 180,  y: 900 },
+    cause:             { x: 480,  y: 890,  w: 250 },
+    threshold:         { x: 790,  y: 890,  w: 250 },
+    shortmoment:       { x: 1090, y: 898,  w: 135 },
+    glitch:            { x: 1280, y: 880,  w: 250 },
 
     // ═══ PERSPECTIVES LABEL ═══
-    perspectives:      { x: 1820, y: 350 },
+    perspectives:      { x: 1970, y: 350 },
   };
 
   // ─── CONNECTIONS ───
