@@ -67,7 +67,7 @@
     glitch:            { x: 1130, y: 880,  w: 250 },
 
     // ═══ PERSPECTIVES LABEL ═══
-    perspectives:      { x: 1820, y: 480 },
+    perspectives:      { x: 1820, y: 350 },
   };
 
   // ─── CONNECTIONS ───
