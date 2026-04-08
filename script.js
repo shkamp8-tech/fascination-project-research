@@ -16,19 +16,19 @@
     // ═══ TOP ROW ═══
     experience:        { x: 30,   y: 120,  w: 250 },
 
-    // Tags
-    exploration:       { x: 330,  y: 85,   w: 135 },
-    adventure:         { x: 330,  y: 135,  w: 135 },
-    discovery:         { x: 330,  y: 185,  w: 135 },
+    // Tags (more space from experience, and from serendipity/surrealism)
+    exploration:       { x: 380,  y: 85,   w: 135 },
+    adventure:         { x: 380,  y: 135,  w: 135 },
+    discovery:         { x: 380,  y: 185,  w: 135 },
 
-    // Center-top concepts
-    serendipity:       { x: 520,  y: 20,   w: 250 },
-    surrealism:        { x: 520,  y: 200,  w: 250 },
+    // Center-top concepts (aligned: serendipity, surrealism, anemoia = x:600)
+    serendipity:       { x: 600,  y: 20,   w: 250 },
+    surrealism:        { x: 600,  y: 200,  w: 250 },
 
-    // Tags
-    luck:              { x: 820,  y: 30,   w: 135 },
-    knowledge:         { x: 820,  y: 80,   w: 135 },
-    dream:             { x: 820,  y: 210,  w: 135 },
+    // Tags (more space from serendipity/surrealism)
+    luck:              { x: 920,  y: 30,   w: 135 },
+    knowledge:         { x: 920,  y: 80,   w: 135 },
+    dream:             { x: 920,  y: 210,  w: 135 },
 
     // Right-top concepts (aligned above statusquo column)
     proactive:         { x: 1500, y: 30,   w: 250 },
@@ -41,8 +41,8 @@
     modularity:        { x: 330,  y: 360,  w: 250 },
     supply:            { x: 330,  y: 540,  w: 250 },
 
-    anemoia:           { x: 640,  y: 400,  w: 250 },
-    patterns:          { x: 940,  y: 400,  w: 250 },
+    anemoia:           { x: 600,  y: 400,  w: 250 },
+    patterns:          { x: 920,  y: 400,  w: 250 },
 
     // ═══ FAR-RIGHT COLUMN ═══
     statusquo:         { x: 1500, y: 370,  w: 250 },
