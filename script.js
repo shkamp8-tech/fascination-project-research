@@ -119,17 +119,20 @@
     // Entropy — Decay (no arrow)
     { from: 'entropy', fromSide: 'bottom', to: 'decay', toSide: 'top', noArrow: true },
 
-    // Connections ←→ (horizontal lines spanning the connection zone)
-    { type: 'biline', id: 'conn-left',  from: 'connections', fromSide: 'left',  length: 290 },
-    { type: 'biline', id: 'conn-right', from: 'connections', fromSide: 'right', length: 460 },
+    // Modularity → Connections (arrow points at Connections)
+    { from: 'modularity', fromSide: 'right', to: 'connections', toSide: 'left' },
+    // Systems → Connections (arrow points at Connections)
+    { from: 'systems', fromSide: 'right', to: 'connections', toSide: 'left' },
 
     // Error → A long moment (arrow points at longmoment)
     { from: 'error', fromSide: 'left', to: 'longmoment', toSide: 'right' },
-    { from: 'longmoment', fromSide: 'left', to: 'liminality', toSide: 'right' },
+    // Liminality → A long moment (arrow points at longmoment)
+    { from: 'liminality', fromSide: 'right', to: 'longmoment', toSide: 'left' },
 
     // Glitch → A short moment (arrow points at shortmoment)
     { from: 'glitch', fromSide: 'left', to: 'shortmoment', toSide: 'right' },
-    { from: 'shortmoment', fromSide: 'left', to: 'threshold', toSide: 'right' },
+    // Threshold → A short moment (arrow points at shortmoment)
+    { from: 'threshold', fromSide: 'right', to: 'shortmoment', toSide: 'left' },
 
     // Tension — Supply and demand (no arrow)
     { from: 'tension', fromSide: 'right', to: 'supply', toSide: 'left', noArrow: true },
