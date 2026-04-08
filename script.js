@@ -17,15 +17,23 @@
     const boxes = screen.querySelectorAll('.pin-box');
     const error = document.getElementById('pin-error');
 
+    // Skip PIN if already unlocked this session
+    if (sessionStorage.getItem('pin-unlocked') === '1') {
+      screen.classList.add('unlocked');
+      return;
+    }
+
     function updateBoxes() {
       boxes.forEach((b, i) => {
         b.classList.toggle('filled', i < pinEntry.length);
         b.classList.toggle('active', i === pinEntry.length);
+        b.textContent = i < pinEntry.length ? pinEntry[i] : '';
       });
     }
 
     function tryUnlock() {
       if (pinEntry === PIN) {
+        sessionStorage.setItem('pin-unlocked', '1');
         screen.classList.add('unlocked');
       } else {
         error.classList.add('visible');
