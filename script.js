@@ -41,8 +41,8 @@
     modularity:        { x: 310,  y: 340,  w: 250 },
     supply:            { x: 310,  y: 510,  w: 250 },
 
-    patterns:          { x: 600,  y: 380,  w: 250 },
-    anemoia:           { x: 890,  y: 370,  w: 250 },
+    patterns:          { x: 780,  y: 380,  w: 250 },
+    anemoia:           { x: 490,  y: 370,  w: 250 },
 
     // ═══ FAR-RIGHT COLUMN ═══
     statusquo:         { x: 1350, y: 340,  w: 250 },
@@ -96,6 +96,9 @@
     // Dream → Paradigm
     { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
 
+    // Dream → Paradigm
+    { from: 'dream', fromSide: 'right', to: 'paradigm', toSide: 'left' },
+
     // Paradigm — Status Quo (no arrow)
     { from: 'paradigm', fromSide: 'bottom', to: 'statusquo', toSide: 'top', noArrow: true },
 
@@ -144,9 +147,11 @@
     // Balance — Cause and effect (no arrow)
     { from: 'balance', fromSide: 'right', to: 'cause', toSide: 'left', noArrow: true },
 
-    // Perspectives ↕ connected to Status Quo (up) and Decay (down)
-    { from: 'perspectives', fromSide: 'top', to: 'statusquo', toSide: 'right' },
-    { from: 'perspectives', fromSide: 'bottom', to: 'decay', toSide: 'right' },
+    // Perspectives: arrows from statusquo, intersubjectivity, paradigm, proactive all point to perspectives
+    { from: 'statusquo', fromSide: 'right', to: 'perspectives', toSide: 'left' },
+    { from: 'intersubjectivity', fromSide: 'right', to: 'perspectives', toSide: 'left' },
+    { from: 'paradigm', fromSide: 'right', to: 'perspectives', toSide: 'left' },
+    { from: 'proactive', fromSide: 'right', to: 'perspectives', toSide: 'left' },
   ];
 
   // ─── ADJACENCY ───
