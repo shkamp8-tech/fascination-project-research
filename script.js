@@ -6,6 +6,63 @@
 (function () {
   'use strict';
 
+  // ═══════════════════════════════════════════
+  // PIN LOCK
+  // ═══════════════════════════════════════════
+  const PIN = '0001';
+  let pinEntry = '';
+
+  function setupPinScreen() {
+    const screen = document.getElementById('pin-screen');
+    const dots = screen.querySelectorAll('.pin-dot');
+    const error = document.getElementById('pin-error');
+
+    function updateDots() {
+      dots.forEach((d, i) => d.classList.toggle('filled', i < pinEntry.length));
+    }
+
+    function tryUnlock() {
+      if (pinEntry === PIN) {
+        screen.classList.add('unlocked');
+      } else {
+        error.classList.add('visible');
+        screen.classList.add('shake');
+        setTimeout(() => {
+          pinEntry = '';
+          updateDots();
+          error.classList.remove('visible');
+          screen.classList.remove('shake');
+        }, 800);
+      }
+    }
+
+    screen.querySelectorAll('.pin-key[data-key]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (key === 'del') {
+          pinEntry = pinEntry.slice(0, -1);
+          updateDots();
+        } else if (pinEntry.length < 4) {
+          pinEntry += key;
+          updateDots();
+          if (pinEntry.length === 4) setTimeout(tryUnlock, 200);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (screen.classList.contains('unlocked')) return;
+      if (e.key >= '0' && e.key <= '9' && pinEntry.length < 4) {
+        pinEntry += e.key;
+        updateDots();
+        if (pinEntry.length === 4) setTimeout(tryUnlock, 200);
+      } else if (e.key === 'Backspace') {
+        pinEntry = pinEntry.slice(0, -1);
+        updateDots();
+      }
+    });
+  }
+
   const CANVAS_W = 2200;
   const CANVAS_H = 1200;
 
@@ -174,6 +231,7 @@
   let scale = 1, tx = 0, ty = 0, adjacency;
 
   function init() {
+    setupPinScreen();
     positionNodes();
     requestAnimationFrame(() => {
       drawAllConnections();
@@ -465,7 +523,7 @@
     const html = document.documentElement;
     const stored = localStorage.getItem('fpr-theme');
     if (stored) html.setAttribute('data-theme', stored);
-    else if (window.matchMedia('(prefers-color-scheme: light)').matches) html.setAttribute('data-theme', 'light');
+    else html.setAttribute('data-theme', 'light');
     document.getElementById('theme-toggle').addEventListener('click', () => {
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);

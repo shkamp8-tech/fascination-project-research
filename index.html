@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -10,6 +10,35 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- PIN Lock Screen -->
+  <div id="pin-screen">
+    <div class="pin-container">
+      <h2>Fascination Project Research</h2>
+      <p>Enter PIN to access</p>
+      <div class="pin-dots">
+        <span class="pin-dot" data-index="0"></span>
+        <span class="pin-dot" data-index="1"></span>
+        <span class="pin-dot" data-index="2"></span>
+        <span class="pin-dot" data-index="3"></span>
+      </div>
+      <div class="pin-error" id="pin-error">Incorrect PIN</div>
+      <div class="pin-keypad">
+        <button class="pin-key" data-key="1">1</button>
+        <button class="pin-key" data-key="2">2</button>
+        <button class="pin-key" data-key="3">3</button>
+        <button class="pin-key" data-key="4">4</button>
+        <button class="pin-key" data-key="5">5</button>
+        <button class="pin-key" data-key="6">6</button>
+        <button class="pin-key" data-key="7">7</button>
+        <button class="pin-key" data-key="8">8</button>
+        <button class="pin-key" data-key="9">9</button>
+        <button class="pin-key pin-key-empty"></button>
+        <button class="pin-key" data-key="0">0</button>
+        <button class="pin-key pin-key-del" data-key="del">⌫</button>
+      </div>
+    </div>
+  </div>
+
   <header>
     <div class="header-title">
       <h1>Fascination Project Research</h1>
