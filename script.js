@@ -14,11 +14,14 @@
 
   function setupPinScreen() {
     const screen = document.getElementById('pin-screen');
-    const dots = screen.querySelectorAll('.pin-dot');
+    const boxes = screen.querySelectorAll('.pin-box');
     const error = document.getElementById('pin-error');
 
-    function updateDots() {
-      dots.forEach((d, i) => d.classList.toggle('filled', i < pinEntry.length));
+    function updateBoxes() {
+      boxes.forEach((b, i) => {
+        b.classList.toggle('filled', i < pinEntry.length);
+        b.classList.toggle('active', i === pinEntry.length);
+      });
     }
 
     function tryUnlock() {
@@ -29,36 +32,24 @@
         screen.classList.add('shake');
         setTimeout(() => {
           pinEntry = '';
-          updateDots();
+          updateBoxes();
           error.classList.remove('visible');
           screen.classList.remove('shake');
-        }, 800);
+        }, 900);
       }
     }
 
-    screen.querySelectorAll('.pin-key[data-key]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.key;
-        if (key === 'del') {
-          pinEntry = pinEntry.slice(0, -1);
-          updateDots();
-        } else if (pinEntry.length < 4) {
-          pinEntry += key;
-          updateDots();
-          if (pinEntry.length === 4) setTimeout(tryUnlock, 200);
-        }
-      });
-    });
+    updateBoxes();
 
     document.addEventListener('keydown', e => {
       if (screen.classList.contains('unlocked')) return;
       if (e.key >= '0' && e.key <= '9' && pinEntry.length < 4) {
         pinEntry += e.key;
-        updateDots();
-        if (pinEntry.length === 4) setTimeout(tryUnlock, 200);
+        updateBoxes();
+        if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
       } else if (e.key === 'Backspace') {
         pinEntry = pinEntry.slice(0, -1);
-        updateDots();
+        updateBoxes();
       }
     });
   }
