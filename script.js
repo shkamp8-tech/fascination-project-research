@@ -6,68 +6,68 @@
 (function () {
   'use strict';
 
-  const CANVAS_W = 2000;
-  const CANVAS_H = 1100;
+  const CANVAS_W = 2200;
+  const CANVAS_H = 1200;
 
   // ─── NODE POSITIONS ───
   // Uniform widths: concepts=250, tags=135, labels=auto
   const layout = {
 
     // ═══ TOP ROW ═══
-    experience:        { x: 20,   y: 120,  w: 250 },
+    experience:        { x: 30,   y: 120,  w: 250 },
 
     // Tags
-    exploration:       { x: 310,  y: 95,   w: 135 },
-    adventure:         { x: 310,  y: 140,  w: 135 },
-    discovery:         { x: 310,  y: 185,  w: 135 },
+    exploration:       { x: 330,  y: 85,   w: 135 },
+    adventure:         { x: 330,  y: 135,  w: 135 },
+    discovery:         { x: 330,  y: 185,  w: 135 },
 
     // Center-top concepts
-    serendipity:       { x: 490,  y: 20,   w: 250 },
-    surrealism:        { x: 490,  y: 190,  w: 250 },
+    serendipity:       { x: 520,  y: 20,   w: 250 },
+    surrealism:        { x: 520,  y: 200,  w: 250 },
 
     // Tags
-    luck:              { x: 780,  y: 30,   w: 135 },
-    knowledge:         { x: 780,  y: 75,   w: 135 },
-    dream:             { x: 780,  y: 200,  w: 135 },
+    luck:              { x: 820,  y: 30,   w: 135 },
+    knowledge:         { x: 820,  y: 80,   w: 135 },
+    dream:             { x: 820,  y: 210,  w: 135 },
 
     // Right-top concepts (aligned above statusquo column)
-    proactive:         { x: 1350, y: 20,   w: 250 },
-    paradigm:          { x: 1350, y: 190,  w: 250 },
+    proactive:         { x: 1500, y: 30,   w: 250 },
+    paradigm:          { x: 1500, y: 200,  w: 250 },
 
     // ═══ MIDDLE ROW ═══
-    background:        { x: 20,   y: 340,  w: 250 },
-    metaphorical:      { x: 20,   y: 510,  w: 250 },
+    background:        { x: 30,   y: 360,  w: 250 },
+    metaphorical:      { x: 30,   y: 540,  w: 250 },
 
-    modularity:        { x: 310,  y: 340,  w: 250 },
-    supply:            { x: 310,  y: 510,  w: 250 },
+    modularity:        { x: 330,  y: 360,  w: 250 },
+    supply:            { x: 330,  y: 540,  w: 250 },
 
-    patterns:          { x: 780,  y: 380,  w: 250 },
-    anemoia:           { x: 490,  y: 370,  w: 250 },
+    anemoia:           { x: 520,  y: 400,  w: 250 },
+    patterns:          { x: 820,  y: 400,  w: 250 },
 
     // ═══ FAR-RIGHT COLUMN ═══
-    statusquo:         { x: 1350, y: 340,  w: 250 },
-    intersubjectivity: { x: 1350, y: 490,  w: 250 },
-    entropy:           { x: 1350, y: 640,  w: 250 },
-    decay:             { x: 1350, y: 790,  w: 250 },
+    statusquo:         { x: 1500, y: 370,  w: 250 },
+    intersubjectivity: { x: 1500, y: 540,  w: 250 },
+    entropy:           { x: 1500, y: 710,  w: 250 },
+    decay:             { x: 1500, y: 880,  w: 250 },
 
     // ═══ CONNECTIONS LABEL ═══
-    connections:       { x: 600,  y: 540 },
+    connections:       { x: 640,  y: 580 },
 
     // ═══ BOTTOM ROW ═══
-    tension:           { x: 20,   y: 660 },
-    systems:           { x: 310,  y: 650,  w: 250 },
-    liminality:        { x: 600,  y: 650,  w: 250 },
-    longmoment:        { x: 880,  y: 655,  w: 135 },
-    error:             { x: 1060, y: 640,  w: 250 },
+    tension:           { x: 30,   y: 720 },
+    systems:           { x: 330,  y: 710,  w: 250 },
+    liminality:        { x: 640,  y: 710,  w: 250 },
+    longmoment:        { x: 940,  y: 718,  w: 135 },
+    error:             { x: 1130, y: 700,  w: 250 },
 
-    balance:           { x: 20,   y: 830 },
-    cause:             { x: 310,  y: 820,  w: 250 },
-    threshold:         { x: 600,  y: 820,  w: 250 },
-    shortmoment:       { x: 880,  y: 825,  w: 135 },
-    glitch:            { x: 1060, y: 810,  w: 250 },
+    balance:           { x: 30,   y: 900 },
+    cause:             { x: 330,  y: 890,  w: 250 },
+    threshold:         { x: 640,  y: 890,  w: 250 },
+    shortmoment:       { x: 940,  y: 898,  w: 135 },
+    glitch:            { x: 1130, y: 880,  w: 250 },
 
     // ═══ PERSPECTIVES LABEL ═══
-    perspectives:      { x: 1720, y: 440 },
+    perspectives:      { x: 1820, y: 480 },
   };
 
   // ─── CONNECTIONS ───

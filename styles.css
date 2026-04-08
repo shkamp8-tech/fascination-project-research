@@ -171,8 +171,8 @@ header {
 
 #canvas {
   position: absolute;
-  width: 2000px;
-  height: 1100px;
+  width: 2200px;
+  height: 1200px;
   transform-origin: 0 0;
   will-change: transform;
 }
