@@ -16,6 +16,7 @@
     const screen = document.getElementById('pin-screen');
     const boxes = screen.querySelectorAll('.pin-box');
     const error = document.getElementById('pin-error');
+    const hiddenInput = document.getElementById('pin-input');
 
     // Skip PIN if already unlocked this session
     if (sessionStorage.getItem('pin-unlocked') === '1') {
@@ -40,42 +41,38 @@
         screen.classList.add('shake');
         setTimeout(() => {
           pinEntry = '';
+          hiddenInput.value = '';
           updateBoxes();
           error.classList.remove('visible');
           screen.classList.remove('shake');
+          hiddenInput.focus();
         }, 900);
       }
     }
 
     updateBoxes();
 
-    // Touch keypad
-    screen.querySelectorAll('.pin-key[data-key]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (screen.classList.contains('unlocked')) return;
-        const key = btn.dataset.key;
-        if (key === 'del') {
-          pinEntry = pinEntry.slice(0, -1);
-          updateBoxes();
-        } else if (pinEntry.length < 4) {
-          pinEntry += key;
-          updateBoxes();
-          if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
-        }
-      });
+    // Tap anywhere on PIN screen → focus hidden input → opens mobile keyboard
+    screen.addEventListener('click', () => {
+      if (!screen.classList.contains('unlocked')) hiddenInput.focus();
     });
 
-    // Keyboard input
+    // Auto-focus on load
+    setTimeout(() => hiddenInput.focus(), 300);
+
+    // Hidden input handles both mobile keyboard and desktop typing
+    hiddenInput.addEventListener('input', () => {
+      const val = hiddenInput.value.replace(/[^0-9]/g, '').slice(0, 4);
+      hiddenInput.value = val;
+      pinEntry = val;
+      updateBoxes();
+      if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
+    });
+
+    // Also support desktop keydown for backspace
     document.addEventListener('keydown', e => {
       if (screen.classList.contains('unlocked')) return;
-      if (e.key >= '0' && e.key <= '9' && pinEntry.length < 4) {
-        pinEntry += e.key;
-        updateBoxes();
-        if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
-      } else if (e.key === 'Backspace') {
-        pinEntry = pinEntry.slice(0, -1);
-        updateBoxes();
-      }
+      hiddenInput.focus();
     });
   }
 
