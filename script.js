@@ -60,7 +60,7 @@
     // Auto-focus on load
     setTimeout(() => hiddenInput.focus(), 300);
 
-    // Hidden input handles both mobile keyboard and desktop typing
+    // Hidden input handles mobile keyboard
     hiddenInput.addEventListener('input', () => {
       const val = hiddenInput.value.replace(/[^0-9]/g, '').slice(0, 4);
       hiddenInput.value = val;
@@ -69,10 +69,21 @@
       if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
     });
 
-    // Also support desktop keydown for backspace
+    // Direct keydown for desktop (works even if hidden input loses focus)
     document.addEventListener('keydown', e => {
       if (screen.classList.contains('unlocked')) return;
-      hiddenInput.focus();
+      if (e.key >= '0' && e.key <= '9' && pinEntry.length < 4) {
+        e.preventDefault();
+        pinEntry += e.key;
+        hiddenInput.value = pinEntry;
+        updateBoxes();
+        if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
+      } else if (e.key === 'Backspace') {
+        e.preventDefault();
+        pinEntry = pinEntry.slice(0, -1);
+        hiddenInput.value = pinEntry;
+        updateBoxes();
+      }
     });
   }
 
