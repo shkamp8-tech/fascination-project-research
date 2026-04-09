@@ -49,6 +49,23 @@
 
     updateBoxes();
 
+    // Touch keypad
+    screen.querySelectorAll('.pin-key[data-key]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (screen.classList.contains('unlocked')) return;
+        const key = btn.dataset.key;
+        if (key === 'del') {
+          pinEntry = pinEntry.slice(0, -1);
+          updateBoxes();
+        } else if (pinEntry.length < 4) {
+          pinEntry += key;
+          updateBoxes();
+          if (pinEntry.length === 4) setTimeout(tryUnlock, 250);
+        }
+      });
+    });
+
+    // Keyboard input
     document.addEventListener('keydown', e => {
       if (screen.classList.contains('unlocked')) return;
       if (e.key >= '0' && e.key <= '9' && pinEntry.length < 4) {

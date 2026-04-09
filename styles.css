@@ -578,7 +578,55 @@ header {
   font-size: 13px;
   color: var(--text-secondary);
   margin: 0;
+  margin-top: 20px;
   opacity: 0.7;
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 260px;
+  margin: 8px auto 0;
+}
+
+.pin-key {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--bg);
+  color: var(--title);
+  font-size: 24px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.pin-key:hover {
+  background: var(--card-hover-bg);
+  border-color: var(--accent);
+}
+
+.pin-key:active {
+  transform: scale(0.92);
+  background: var(--card-hover-bg);
+}
+
+.pin-key-spacer {
+  visibility: hidden;
+}
+
+.pin-key-del {
+  font-size: 20px;
+  color: var(--text-secondary);
 }
 
 #pin-screen.shake .pin-boxes {
