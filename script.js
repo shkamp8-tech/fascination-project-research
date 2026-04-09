@@ -92,10 +92,10 @@
 
     // ═══ MIDDLE ROW ═══
     background:        { x: 30,   y: 320,  w: 250 },
-    metaphorical:      { x: 180,  y: 490,  w: 250 },
+    metaphorical:      { x: 30,   y: 490,  w: 250 },
 
     modularity:        { x: 330,  y: 360,  w: 250 },
-    supply:            { x: 480,  y: 540,  w: 250 },
+    supply:            { x: 330,  y: 540,  w: 250 },
 
     anemoia:           { x: 750,  y: 400,  w: 250 },
     patterns:          { x: 1070, y: 400,  w: 250 },
@@ -111,13 +111,13 @@
 
     // ═══ BOTTOM ROW ═══
     tension:           { x: 180,  y: 720 },
-    systems:           { x: 480,  y: 710,  w: 250 },
+    systems:           { x: 330,  y: 710,  w: 250 },
     liminality:        { x: 790,  y: 710,  w: 250 },
     longmoment:        { x: 1090, y: 718,  w: 135 },
     error:             { x: 1280, y: 700,  w: 250 },
 
     balance:           { x: 180,  y: 900 },
-    cause:             { x: 480,  y: 890,  w: 250 },
+    cause:             { x: 330,  y: 890,  w: 250 },
     threshold:         { x: 790,  y: 890,  w: 250 },
     shortmoment:       { x: 1090, y: 898,  w: 135 },
     glitch:            { x: 1280, y: 880,  w: 250 },
