@@ -110,20 +110,20 @@
     connections:       { x: 890,  y: 580 },
 
     // ═══ BOTTOM ROW ═══
-    tension:           { x: 180,  y: 720 },
+    tension:           { x: 100,  y: 720 },
     systems:           { x: 330,  y: 710,  w: 250 },
     liminality:        { x: 790,  y: 710,  w: 250 },
     longmoment:        { x: 1090, y: 718,  w: 135 },
     error:             { x: 1280, y: 700,  w: 250 },
 
-    balance:           { x: 180,  y: 900 },
+    balance:           { x: 100,  y: 900 },
     cause:             { x: 330,  y: 890,  w: 250 },
     threshold:         { x: 790,  y: 890,  w: 250 },
     shortmoment:       { x: 1090, y: 898,  w: 135 },
     glitch:            { x: 1280, y: 880,  w: 250 },
 
     // ═══ PERSPECTIVES LABEL ═══
-    perspectives:      { x: 1970, y: 350 },
+    perspectives:      { x: 2050, y: 350 },
   };
 
   // ─── CONNECTIONS ───
